@@ -1,10 +1,10 @@
-package com.parcom.pcclassroom;
+package com.parcom.classroom;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PcClassroomApplicationTests {
+class ClassroomApplicationTests {
 
 	@Test
 	void contextLoads() {

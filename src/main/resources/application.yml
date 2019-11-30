@@ -3,3 +3,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: parcom
+    platform: postgres
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
