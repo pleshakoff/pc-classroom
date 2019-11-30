@@ -1,7 +1,6 @@
 package com.parcom.classroom.security;
 
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,13 +20,6 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean imple
     private static final String X_AUTH_TOKEN = "X-Auth-Token";
     private static final String TOKEN = "token";
 
-
-    private MessageSource messageSource;
-
-    public AuthenticationTokenProcessingFilter(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
@@ -36,21 +28,19 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean imple
         if (authToken != null) {
             try {
                 UserDetails userDetails = TokenUtils.validateToken(authToken);
-                if (userDetails != null) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    chain.doFilter(request, response);
-                }
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                chain.doFilter(request, response);
             } catch (Exception e) {
-                handleException((HttpServletRequest) request, (HttpServletResponse) response, e);
+                handleException((HttpServletResponse) response, e);
             }
         } else
             chain.doFilter(request, response);
     }
 
-    private void handleException(HttpServletRequest request, HttpServletResponse response, Exception e) throws IOException {
+    private void handleException(HttpServletResponse response, Exception e) throws IOException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.getOutputStream().write(e.getMessage().getBytes());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -65,7 +55,6 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean imple
 
         return (HttpServletRequest) request;
     }
-
 
     private String extractAuthTokenFromRequest(HttpServletRequest httpRequest) {
         /* Get token from header */

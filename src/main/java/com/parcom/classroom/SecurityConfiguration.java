@@ -28,7 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    MessageSource messageSource;
+    private final MessageSource messageSource;
 
     public SecurityConfiguration(MessageSource messageSource) {
         this.messageSource = messageSource;
@@ -46,13 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/users/authenticate",
-                                               "/users/registerTenancy",
-                                               "/users/registration/confirm",
-                                               "/users/remaindbyemail",
-                                               "/users/remaindbylogin",
-                                               "/users/resetpassword");
+    public void configure(WebSecurity web)  {
+        web.ignoring().antMatchers("/users/authenticate");
     }
 
 

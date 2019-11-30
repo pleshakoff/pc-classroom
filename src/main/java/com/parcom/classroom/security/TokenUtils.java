@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-public class TokenUtils
+class TokenUtils
 {
 
 	@FunctionalInterface
@@ -55,7 +55,7 @@ public class TokenUtils
 				.compact();
 	}
 
-	public static UserDetails validateToken(String token)
+	static UserDetails validateToken(String token)
 	{
 
 		DefaultClaims claims;

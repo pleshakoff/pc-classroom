@@ -9,14 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UserDetailsPC implements UserDetails {
+class UserDetailsPC implements UserDetails {
 
     private final String username;
     private final String password;
     private final Long id;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsPC(Users users) {
+    UserDetailsPC(Users users) {
         username=users.getUsername();
         password=users.getPassword();
         id = users.getId();
@@ -26,7 +26,7 @@ public class UserDetailsPC implements UserDetails {
         authorities = a;
     }
 
-    public UserDetailsPC(String username,  Long id, Collection<? extends GrantedAuthority> authorities) {
+    UserDetailsPC(String username,  Long id, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = null;
         this.id = id;
@@ -38,11 +38,11 @@ public class UserDetailsPC implements UserDetails {
              return authorities;
     }
 
-    public String getAuthoritiesStr() {
+    String getAuthoritiesStr() {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
     }
 
-    public Long getId() {
+    Long getId() {
         return id;
     }
 
