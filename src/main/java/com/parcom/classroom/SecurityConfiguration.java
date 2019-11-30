@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .addFilterBefore(new AuthenticationTokenProcessingFilter(messageSource),  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationTokenProcessingFilter(),  UsernamePasswordAuthenticationFilter.class)
                  ;
     }
 
