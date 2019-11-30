@@ -1,4 +1,4 @@
-package com.parcom.classroom.security;
+package com.parcom.classroom.data;
 
 public enum  Role {
 

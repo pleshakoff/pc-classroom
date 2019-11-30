@@ -1,4 +1,4 @@
-package com.parcom.classroom.security;
+package com.parcom.classroom.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table
-class Users {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

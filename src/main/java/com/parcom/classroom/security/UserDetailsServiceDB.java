@@ -1,6 +1,8 @@
 package com.parcom.classroom.security;
 
 
+import com.parcom.classroom.services.UserRepository;
+import com.parcom.classroom.data.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
