@@ -2,13 +2,17 @@ package com.parcom.classroom.model.group;
 
 
 import com.parcom.classroom.model.school.School;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Table(name = "Groups")
 public class Group {

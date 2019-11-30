@@ -1,13 +1,20 @@
 package com.parcom.classroom.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.student.Student;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Users")
 public class User {
 
@@ -17,6 +24,21 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column
+    private String middleName;
+
+    @Column(nullable = false)
+    private String familyName;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
 
     @JsonIgnore
     @Column(nullable = false)
@@ -34,7 +56,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_group", referencedColumnName = "id")
-    private Student group;
+    private Group group;
 
 
 }

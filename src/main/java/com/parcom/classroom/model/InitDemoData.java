@@ -6,6 +6,8 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
+import com.parcom.classroom.model.user.UserRegisterByGroupDTO;
+import com.parcom.classroom.model.user.UserService;
 import lombok.extern.java.Log;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -19,16 +21,19 @@ public class InitDemoData {
     private final SchoolRepository schoolRepository;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
+    private final UserService userService;
 
-    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository) {
+
+    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, UserService userService) {
         this.schoolRepository = schoolRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
+        this.userService = userService;
     }
 
-    void run(){
+    void run() {
 
-        if (schoolRepository.count()>0)
+        if (schoolRepository.count() > 0)
             return;
         log.info("Insert school");
         School school = School.builder().name("Лицей № 5 имени Бертольда Шварца").build();
@@ -44,13 +49,17 @@ public class InitDemoData {
         log.info("Insert student 2");
         studentRepository.save(student2);
 
+        userService.registerByGroup(new UserRegisterByGroupDTO("admin",
+                "Антон",
+                "Викторович",
+                "Плешаков",
+                "pleshakoff@gmail.com", "123",
+                "00000", "00000", group.getId()));
 
 
+    }
 
-
-
-
-    };
+    ;
 
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {
