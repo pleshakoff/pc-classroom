@@ -1,8 +1,8 @@
 package com.parcom.classroom.security;
 
 
-import com.parcom.classroom.services.UserRepository;
-import com.parcom.classroom.data.Users;
+import com.parcom.classroom.model.user.UserRepository;
+import com.parcom.classroom.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,9 +23,9 @@ public class UserDetailsServiceDB implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       Users users =repo.findUserByUsername(username);
-       if (users !=null) {
-           return new UserDetailsPC(users);
+       User user =repo.findUserByUsername(username);
+       if (user !=null) {
+           return new UserDetailsPC(user);
        }
        else
          throw  new BadCredentialsException(messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null, LocaleContextHolder.getLocale()));

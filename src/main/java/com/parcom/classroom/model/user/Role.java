@@ -1,4 +1,4 @@
-package com.parcom.classroom.data;
+package com.parcom.classroom.model.user;
 
 public enum  Role {
 

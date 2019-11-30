@@ -1,4 +1,4 @@
-package com.parcom.classroom.services;
+package com.parcom.classroom.model.user;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;

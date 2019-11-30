@@ -1,6 +1,6 @@
 package com.parcom.classroom.security;
 
-import com.parcom.classroom.data.Users;
+import com.parcom.classroom.model.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +17,13 @@ class UserDetailsPC implements UserDetails {
     private final Long id;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    UserDetailsPC(Users users) {
-        username=users.getUsername();
-        password=users.getPassword();
-        id = users.getId();
+    UserDetailsPC(User user) {
+        username= user.getUsername();
+        password= user.getPassword();
+        id = user.getId();
 
         Set<GrantedAuthority> a = new HashSet<>();
-            a.add(new SimpleGrantedAuthority(users.getRole().name()));
+            a.add(new SimpleGrantedAuthority(user.getRole().name()));
         authorities = a;
     }
 

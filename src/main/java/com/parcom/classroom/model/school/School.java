@@ -1,12 +1,14 @@
-package com.parcom.classroom.data;
+package com.parcom.classroom.model.school;
 
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 public class School {
 
     @Id
