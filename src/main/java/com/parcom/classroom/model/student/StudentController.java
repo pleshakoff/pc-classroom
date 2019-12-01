@@ -34,6 +34,12 @@ public class StudentController {
     }
 
 
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all students in group")
+    public List<Student> getAllStudents()
+    {
+        return studentService.getStudents();
+    }
 
 
 

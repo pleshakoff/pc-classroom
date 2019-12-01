@@ -15,8 +15,5 @@ public interface StudentToUserRepository extends CrudRepository<StudentToUser, L
     List<Student> getCurrentStudents(@Param("idUser") Long idUser, @Param("idGroup") Long idGroup);
 
 
-    @Query("select su.student from StudentToUser su " +
-            "where  su.student.group.id =  :idGroup " +
-            "order by su.student.familyName" )
-    List<Student> getStudents( @Param("idGroup") Long idGroup);
+
 }

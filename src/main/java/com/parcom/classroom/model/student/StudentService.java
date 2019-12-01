@@ -45,7 +45,7 @@ public class StudentService {
     }
 
     List<Student> getStudents() {
-        return studentToUserRepository.getStudents(UserUtils.getIdGroup());
+        return studentRepository.getStudents(UserUtils.getIdGroup());
     }
 
 
