@@ -25,21 +25,17 @@ public class UserUtils {
     }
 
 
-    public static Long getUserId() {
+    public static Long getIdUser() {
 
         return getPrincipal(UserDetailsPC::getId);
     }
 
 
-    public static Long getGroupId() {
+    public static Long getIdGroup() {
 
         return getPrincipal(UserDetailsPC::getIdGroup);
 
     }
 
 
-    public static Long getStudentId() {
-        return getPrincipal(UserDetailsPC::getIdStudent);
-
-    }
-}
+   }

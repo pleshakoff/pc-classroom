@@ -1,6 +1,5 @@
 package com.parcom.classroom.security;
 
-import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
-
 public class UserDetailsPC implements UserDetails {
 
     private final String username;
@@ -21,7 +18,6 @@ public class UserDetailsPC implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final Long idGroup;
-    private final Long idStudent;
 
 
     UserDetailsPC(User user) {
@@ -34,9 +30,7 @@ public class UserDetailsPC implements UserDetails {
         authorities = a;
         enabled = user.isEnabled();
         idGroup = user.getGroup().getId();
-        idStudent = ofNullable(user.getGroup()).map(Group::getId).orElse(null);
-
-    }
+     }
 
 
     @Override
@@ -86,7 +80,5 @@ public class UserDetailsPC implements UserDetails {
         return idGroup;
     }
 
-    public Long getIdStudent() {
-        return idStudent;
-    }
+
 }
