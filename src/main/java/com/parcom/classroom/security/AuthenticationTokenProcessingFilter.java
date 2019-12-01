@@ -1,7 +1,10 @@
 package com.parcom.classroom.security;
 
+import com.parcom.classroom.exceptions.ExceptionResource;
+import com.parcom.classroom.exceptions.GlobalDefaultExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean implements Filter {
 
     private final UserDetailsService userDetailsService;
+    private final MessageSource messageSource;
 
     private static final String X_AUTH_TOKEN = "X-Auth-Token";
     private static final String TOKEN = "token";
@@ -38,16 +42,17 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean imple
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
             } catch (Exception e) {
-                handleException((HttpServletResponse) response, e);
+                handleException((HttpServletRequest) request, (HttpServletResponse) response, e);
             }
         } else
             chain.doFilter(request, response);
     }
 
-    private void handleException(HttpServletResponse response, Exception e) throws IOException {
+    private void handleException(HttpServletRequest request, HttpServletResponse response, Exception e) throws IOException {
+        ExceptionResource exceptionResource = GlobalDefaultExceptionHandler.getExceptionResource(request,e, e.getMessage());
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.getOutputStream().write(e.getMessage().getBytes());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getOutputStream().write(exceptionResource.toJson().getBytes(StandardCharsets.UTF_8));
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
     }
 

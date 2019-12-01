@@ -3,7 +3,9 @@ package com.parcom.classroom.model.student;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.security.UserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
@@ -38,7 +40,13 @@ public class StudentService {
         return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
                 stream().
                 filter(student -> student.getId().equals(id)).
-                findFirst().orElseThrow(EntityNotFoundException::new);
+                findFirst().orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Not Found"));
     }
+
+    List<Student> getStudents() {
+        return studentToUserRepository.getStudents(UserUtils.getIdGroup());
+    }
+
 
 }
