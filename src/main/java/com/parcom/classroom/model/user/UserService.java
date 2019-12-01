@@ -2,6 +2,12 @@ package com.parcom.classroom.model.user;
 
 import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupRepository;
+import com.parcom.classroom.security.TokenUtils;
+import com.parcom.classroom.security.UserDetailsPC;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +17,13 @@ public class UserService {
     private  final  GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
     private  final  UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
 
-    public UserService(GroupRepository groupRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(GroupRepository groupRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager) {
         this.groupRepository = groupRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
     }
 
    public User registerByGroup(UserRegisterByGroupDTO userDTO) {
@@ -41,4 +49,11 @@ public class UserService {
     }
 
 
+    public TokenResource authenticate(UserAuthDTO userAuthDTO) {
+        UsernamePasswordAuthenticationToken authenticationToken =  new UsernamePasswordAuthenticationToken(userAuthDTO.getUsername(), userAuthDTO.getPassword());
+        Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetailsPC userDetail = (UserDetailsPC) authentication.getPrincipal();
+        return new TokenResource(TokenUtils.createToken(userDetail),userDetail.getId());
+    }
 }

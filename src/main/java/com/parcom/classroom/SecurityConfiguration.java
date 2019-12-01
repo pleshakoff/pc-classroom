@@ -34,16 +34,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.messageSource = messageSource;
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/security/**","/health","/info","/**/pushers" ).permitAll()
-                .anyRequest().authenticated()
+               // .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .addFilterBefore(new AuthenticationTokenProcessingFilter(),  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationTokenProcessingFilter(userDetailsService()),  UsernamePasswordAuthenticationFilter.class)
                  ;
     }
+
+    @Bean(name = "userDetailsService")
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsServiceDB(messageSource);
+    }
+
 
     @Override
     public void configure(WebSecurity web)  {
@@ -56,10 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(){
-       return new UserDetailsServiceDB(messageSource);
-    }
 
     @Bean
     UnauthorizedEntryPoint unauthorizedEntryPoint(){

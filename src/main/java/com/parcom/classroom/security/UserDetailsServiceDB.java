@@ -20,7 +20,6 @@ public class UserDetailsServiceDB implements UserDetailsService {
 
     private final MessageSource messageSource;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
        User user =repo.findUserByUsername(username);
@@ -30,4 +29,6 @@ public class UserDetailsServiceDB implements UserDetailsService {
        else
          throw  new BadCredentialsException(messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null, LocaleContextHolder.getLocale()));
     }
+
+
 }

@@ -5,17 +5,13 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
-class TokenUtils
+public class TokenUtils
 {
 
 	@FunctionalInterface
@@ -26,8 +22,8 @@ class TokenUtils
 	private static final String MAGIC_KEY = "MdDQkHksRA4Vq%A9fqVPT*Qnn9^dDyn8K";
 	private static final long DEFAULT_TOKEN_DURATION = 30L;
 
-	private static final String JWT_ID_USER = "idUser";
-	private static final String JWT_AUTHORITIES = "authorities";
+	private static final String JWT_USER = "user";
+//	private static final String JWT_AUTHORITIES = "authorities";
 
 
 	public static String createToken(UserDetailsPC userDetails)
@@ -43,8 +39,7 @@ class TokenUtils
 	private static String createToken(UserDetailsPC userDetails, DurationSetter durationSetter) {
 		Date now = new Date();
 		Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-		claims.put(JWT_ID_USER, userDetails.getId());
-			claims.put(JWT_AUTHORITIES, userDetails.getAuthoritiesStr());
+		claims.put(JWT_USER, userDetails.getUsername());
 
 
 		return Jwts.builder()
@@ -55,7 +50,7 @@ class TokenUtils
 				.compact();
 	}
 
-	static UserDetails validateToken(String token)
+	static String  validateToken(String token)
 	{
 
 		DefaultClaims claims;
@@ -76,13 +71,11 @@ class TokenUtils
 			throw new SessionAuthenticationException("exception.token_expired_date_error");
 		}
 		String userName = claims.getSubject();
-		Long id = claims.get(JWT_ID_USER, Long.class);
-		if (id == null) {
+		String name = claims.get(JWT_USER, String.class);
+		if (name == null) {
 			throw new SessionAuthenticationException("exception.token_invalid");
 		}
-		Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get(JWT_AUTHORITIES));
-
-		return new UserDetailsPC(userName,id,authorities);
+		return name;
 	}
 
 }

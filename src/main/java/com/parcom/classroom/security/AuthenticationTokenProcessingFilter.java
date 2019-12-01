@@ -1,10 +1,12 @@
 package com.parcom.classroom.security;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -14,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-
+@RequiredArgsConstructor
 public class AuthenticationTokenProcessingFilter extends GenericFilterBean implements Filter {
+
+    private final UserDetailsService userDetailsService;
 
     private static final String X_AUTH_TOKEN = "X-Auth-Token";
     private static final String TOKEN = "token";
@@ -27,7 +31,7 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean imple
         String authToken = this.extractAuthTokenFromRequest(httpRequest);
         if (authToken != null) {
             try {
-                UserDetails userDetails = TokenUtils.validateToken(authToken);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(TokenUtils.validateToken(authToken));
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

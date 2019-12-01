@@ -6,6 +6,7 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
+import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.UserRegisterByGroupDTO;
 import com.parcom.classroom.model.user.UserService;
 import lombok.extern.java.Log;
@@ -22,6 +23,7 @@ public class InitDemoData {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
     private final UserService userService;
+
 
 
     public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, UserService userService) {
@@ -45,16 +47,17 @@ public class InitDemoData {
         Student student1 = Student.builder().firstName("Вася").familyName("Васин").group(group).build();
         log.info("Insert student 1");
         studentRepository.save(student1);
-        Student student2 = Student.builder().firstName("Вася").familyName("Васин").group(group).build();
+        Student student2 = Student.builder().firstName("Петя").familyName("Петин").group(group).build();
         log.info("Insert student 2");
         studentRepository.save(student2);
 
-        userService.registerByGroup(new UserRegisterByGroupDTO("admin",
+        User user = userService.registerByGroup(new UserRegisterByGroupDTO("admin",
                 "Антон",
                 "Викторович",
                 "Плешаков",
                 "pleshakoff@gmail.com", "123",
                 "00000", "00000", group.getId()));
+        user.setEnabled(true);
 
 
     }

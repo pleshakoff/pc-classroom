@@ -1,4 +1,6 @@
 spring:
+  hateoas:
+    use-hal-as-default-json-media-type: false
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -10,4 +12,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+         jdbc:
+          lob:
+            non_contextual_creation: true
+  data:
+    rest:
+      detection-strategy: annotated
+
 

@@ -1,5 +1,6 @@
 package com.parcom.classroom.security;
 
+import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,12 +11,18 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class UserDetailsPC implements UserDetails {
+import static java.util.Optional.ofNullable;
+
+public class UserDetailsPC implements UserDetails {
 
     private final String username;
     private final String password;
     private final Long id;
     private final Collection<? extends GrantedAuthority> authorities;
+    private final boolean enabled;
+    private final Long idGroup;
+    private final Long idStudent;
+
 
     UserDetailsPC(User user) {
         username= user.getUsername();
@@ -25,14 +32,12 @@ class UserDetailsPC implements UserDetails {
         Set<GrantedAuthority> a = new HashSet<>();
             a.add(new SimpleGrantedAuthority(user.getRole().name()));
         authorities = a;
+        enabled = user.isEnabled();
+        idGroup = user.getGroup().getId();
+        idStudent = ofNullable(user.getGroup()).map(Group::getId).orElse(null);
+
     }
 
-    UserDetailsPC(String username,  Long id, Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
-        this.password = null;
-        this.id = id;
-        this.authorities = authorities;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -43,7 +48,7 @@ class UserDetailsPC implements UserDetails {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -59,21 +64,29 @@ class UserDetailsPC implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
+    }
+
+    public Long getIdGroup() {
+        return idGroup;
+    }
+
+    public Long getIdStudent() {
+        return idStudent;
     }
 }
