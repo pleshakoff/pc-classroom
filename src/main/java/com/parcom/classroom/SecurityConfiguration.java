@@ -38,8 +38,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/security/**","/health","/info","/**/pushers" ).permitAll()
-               // .anyRequest().authenticated()
+        http.authorizeRequests().antMatchers("/webjars/springfox-swagger-ui/**",
+                                                        "/swagger-ui.html/**",
+                                                        "/swagger-resources/**",
+                                                        "/v2/api-docs",
+
+
+                                                        "/auth/**","/health").permitAll()
+                .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
