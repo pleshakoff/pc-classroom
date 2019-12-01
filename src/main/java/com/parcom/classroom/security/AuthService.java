@@ -45,9 +45,6 @@ public class AuthService {
        Group group = groupService.getById(userDTO.getIdGroup());
 
        Student student = null;
-       if (userDTO.getIdStudent() != null) {
-           student = studentService.getByOrNull(userDTO.getIdStudent());
-       }
 
            User user = User.builder().email(userDTO.getEmail()).
                    enabled(true).
@@ -58,10 +55,16 @@ public class AuthService {
                    phone(userDTO.getPhone()).
                    password(passwordEncoder.encode(userDTO.getPassword())).
                    role(Role.MEMBER).
-                   student(student).
                    group(group).build();
-        return userRepository.save(user);
-    }
+
+       userRepository.save(user);
+       if (userDTO.getIdStudent() != null) {
+           student = studentService.getByOrNull(userDTO.getIdStudent());
+           studentService.linkStudentToUser(student,user);
+       }
+       return user;
+
+   }
 
 
     public User registerByStudent(UserRegisterByStudentDTO userDTO) {
@@ -83,9 +86,12 @@ public class AuthService {
                 phone(userDTO.getPhone()).
                 password(passwordEncoder.encode(userDTO.getPassword())).
                 role(Role.USER).
-                student(student).
                 group(student.getGroup()).build();
-        return userRepository.save(user);
+
+
+        userRepository.save(user);
+        studentService.linkStudentToUser(student,user);
+        return user;
     }
 
     public User registerNewGroup(UserRegisterNewGroupDTO userDTO) {

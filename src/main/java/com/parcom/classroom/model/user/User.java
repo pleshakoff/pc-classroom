@@ -2,7 +2,6 @@ package com.parcom.classroom.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parcom.classroom.model.group.Group;
-import com.parcom.classroom.model.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,11 +48,6 @@ public class User {
 
     @Column(nullable = false)
     private boolean enabled;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_student", referencedColumnName = "id")
-    private Student student;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
