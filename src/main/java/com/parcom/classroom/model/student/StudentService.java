@@ -3,9 +3,8 @@ package com.parcom.classroom.model.student;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.security.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
@@ -40,10 +39,11 @@ public class StudentService {
         return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
                 stream().
                 filter(student -> student.getId().equals(id)).
-                findFirst().orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Not Found"));
+                findFirst().orElseThrow(EntityNotFoundException::new);
     }
 
+
+    @Secured({"ROLE_MEMBER","ROLE_ADMIN"})
     List<Student> getStudents() {
         return studentRepository.getStudents(UserUtils.getIdGroup());
     }

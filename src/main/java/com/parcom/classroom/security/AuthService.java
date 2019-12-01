@@ -6,7 +6,6 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolService;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentService;
-import com.parcom.classroom.model.user.Role;
 import com.parcom.classroom.model.user.TokenResource;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.UserRepository;
@@ -54,7 +53,7 @@ public class AuthService {
                    username(userDTO.getUsername()).
                    phone(userDTO.getPhone()).
                    password(passwordEncoder.encode(userDTO.getPassword())).
-                   role(Role.MEMBER).
+                   role("ROLE_MEMBER").
                    group(group).build();
 
        userRepository.save(user);
@@ -85,7 +84,7 @@ public class AuthService {
                 username(userDTO.getUsername()).
                 phone(userDTO.getPhone()).
                 password(passwordEncoder.encode(userDTO.getPassword())).
-                role(Role.USER).
+                role("ROLE_USER").
                 group(student.getGroup()).build();
 
 
@@ -113,7 +112,7 @@ public class AuthService {
                 username(userDTO.getUsername()).
                 phone(userDTO.getPhone()).
                 password(passwordEncoder.encode(userDTO.getPassword())).
-                role(Role.ADMIN).
+                role("ROLE_ADMIN").
                 group(group).build();
         return userRepository.save(user);
     }

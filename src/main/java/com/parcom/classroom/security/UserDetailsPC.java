@@ -26,7 +26,7 @@ public class UserDetailsPC implements UserDetails {
         id = user.getId();
 
         Set<GrantedAuthority> a = new HashSet<>();
-            a.add(new SimpleGrantedAuthority(user.getRole().name()));
+            a.add(new SimpleGrantedAuthority(user.getRole()));
         authorities = a;
         enabled = user.isEnabled();
         idGroup = user.getGroup().getId();

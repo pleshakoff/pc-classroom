@@ -43,10 +43,6 @@ public class GlobalDefaultExceptionHandler {
         return result;
     }
 
-
-
-
-
     @ExceptionHandler(value = Exception.class)
     public ExceptionResource handleAllException(HttpServletRequest request, Exception ex, HttpServletResponse response) {
         ExceptionResource result = getExceptionResource(request, ex, getMessageForRootException(ex));
