@@ -1,6 +1,9 @@
-package com.parcom.classroom.model.user;
+package com.parcom.classroom.security;
 
+import com.parcom.classroom.model.user.TokenResource;
+import com.parcom.classroom.model.user.UserAuthDTO;
 import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -13,23 +16,21 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/users", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(value = "/auth", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE},produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 @Api(tags="Register and authentication")
-public class UserController {
+@RequiredArgsConstructor
+public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping(value = "/authenticate")
     public TokenResource authenticate(@Valid @RequestBody UserAuthDTO userAuthDTO,
-                               BindingResult bindingResult) throws BindException {
+                                      BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return userService.authenticate(userAuthDTO);
+        return authService.authenticate(userAuthDTO);
     }
 
 

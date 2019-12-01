@@ -8,7 +8,7 @@ import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.UserRegisterByGroupDTO;
-import com.parcom.classroom.model.user.UserService;
+import com.parcom.classroom.security.AuthService;
 import lombok.extern.java.Log;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -22,15 +22,15 @@ public class InitDemoData {
     private final SchoolRepository schoolRepository;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
-    private final UserService userService;
+    private final AuthService authService;
 
 
 
-    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, UserService userService) {
+    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, AuthService authService) {
         this.schoolRepository = schoolRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
-        this.userService = userService;
+        this.authService = authService;
     }
 
     void run() {
@@ -51,7 +51,7 @@ public class InitDemoData {
         log.info("Insert student 2");
         studentRepository.save(student2);
 
-        User user = userService.registerByGroup(new UserRegisterByGroupDTO("admin",
+        User user = authService.registerByGroup(new UserRegisterByGroupDTO("admin",
                 "Антон",
                 "Викторович",
                 "Плешаков",
@@ -59,10 +59,7 @@ public class InitDemoData {
                 "00000", "00000", group.getId()));
         user.setEnabled(true);
 
-
     }
-
-    ;
 
     @EventListener(ApplicationReadyEvent.class)
     public void doSomethingAfterStartup() {

@@ -1,6 +1,7 @@
 package com.parcom.classroom.model.group;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parcom.classroom.model.school.School;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Group {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_school", referencedColumnName = "id", nullable = false)
     private School school;
