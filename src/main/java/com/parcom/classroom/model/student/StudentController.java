@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,4 +26,12 @@ public class StudentController {
     public List<Student> getCurrentStudents()  {
        return studentService.getCurrentStudents();
     }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get current student by ID")
+    public Student getCurrentStudent(@PathVariable Long id)  {
+        return studentService.getCurrentStudent(id);
+    }
+
+
 }

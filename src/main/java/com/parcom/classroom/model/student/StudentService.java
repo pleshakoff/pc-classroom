@@ -13,12 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentService {
 
+    public static final String STUDENT_NOT_FOUND = "Student not found";
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
 
 
     public Student getById(@NotNull Long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Ученик не найден"));
+        return studentRepository.findById(idStudent).orElseThrow(EntityNotFoundException::new);
     }
 
     public Student getByOrNull(@NotNull Long idStudent) {
@@ -29,9 +30,15 @@ public class StudentService {
         return studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
     }
 
-    public List<Student> getCurrentStudents() {
+    List<Student> getCurrentStudents() {
         return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup());
     }
 
+    Student getCurrentStudent(Long id) {
+        return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
+                stream().
+                filter(student -> student.getId().equals(id)).
+                findFirst().orElseThrow(EntityNotFoundException::new);
+    }
 
 }

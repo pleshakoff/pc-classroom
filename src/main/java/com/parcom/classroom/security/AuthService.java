@@ -94,7 +94,7 @@ public class AuthService {
         return user;
     }
 
-    public User registerNewGroup(UserRegisterNewGroupDTO userDTO) {
+    User registerNewGroup(UserRegisterNewGroupDTO userDTO) {
         if (!userDTO.getPassword().equals(userDTO.getPasswordConfirm())) {
             throw new RuntimeException("Пароль и его подтверждение должны совпадать");
         }
