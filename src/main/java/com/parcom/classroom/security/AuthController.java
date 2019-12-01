@@ -5,6 +5,7 @@ import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.security.dto.UserAuthDTO;
 import com.parcom.classroom.security.dto.UserRegisterByGroupDTO;
 import com.parcom.classroom.security.dto.UserRegisterByStudentDTO;
+import com.parcom.classroom.security.dto.UserRegisterNewGroupDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,16 @@ public class AuthController {
         }
         return authService.registerByStudent(userRegisterByStudentDTO);
     }
+
+    @PostMapping(value = "/register/newgroup")
+    @ApiOperation("Create new group")
+    public User registerParent(@Valid @RequestBody UserRegisterNewGroupDTO userRegisterNewGroupDTO,
+                               BindingResult bindingResult) throws BindException {
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+        return authService.registerNewGroup(userRegisterNewGroupDTO);
+    }
+
 
 }

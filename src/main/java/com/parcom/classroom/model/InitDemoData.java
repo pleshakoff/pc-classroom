@@ -65,9 +65,6 @@ public class InitDemoData {
                 "Иванович",
                 "ivanov@gmail.com", "1234",
                 "00000", "00000", student2.getId()));
-
-
-
     }
 
     @EventListener(ApplicationReadyEvent.class)

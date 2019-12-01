@@ -9,7 +9,6 @@ import java.util.function.Function;
 
 public class UserUtils {
 
-
     private static Long getPrincipal(Function<UserDetailsPC,Long> getFromPrincipal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
