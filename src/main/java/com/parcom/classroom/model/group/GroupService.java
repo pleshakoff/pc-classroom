@@ -14,8 +14,6 @@ public class GroupService {
 
 
     Group getCurrentGroup() {
-
         return groupRepository.findById(UserUtils.getGroupId()).orElseThrow(EntityNotFoundException::new);
-
     }
 }

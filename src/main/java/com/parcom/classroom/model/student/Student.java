@@ -1,6 +1,7 @@
 package com.parcom.classroom.model.student;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parcom.classroom.model.group.Group;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Student {
     private String familyName;
 
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_group", referencedColumnName = "id", nullable = false)
     private Group group;

@@ -1,4 +1,4 @@
-package com.parcom.classroom.model.user;
+package com.parcom.classroom.security.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

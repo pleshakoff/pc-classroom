@@ -34,10 +34,10 @@ public class User {
     @Column(nullable = false)
     private String familyName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phone;
 
     @JsonIgnore
@@ -50,11 +50,13 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_student", referencedColumnName = "id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_group", referencedColumnName = "id")
     private Group group;
 
