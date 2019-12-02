@@ -1,13 +1,14 @@
 package com.parcom.classroom.security.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class UserRegisterDTO {
+@AllArgsConstructor
+public class UserRegisterDto {
 
     @NotNull
     protected final String username;
@@ -33,18 +34,6 @@ public class UserRegisterDTO {
     protected final String passwordConfirm;
 
 
-    @JsonCreator
-    public UserRegisterDTO(String username, String firstName, String middleName, String familyName, String email, String phone, String password, String passwordConfirm) {
-        this.username = username;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.familyName = familyName;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.passwordConfirm = passwordConfirm;
-
-    }
 
 
 }

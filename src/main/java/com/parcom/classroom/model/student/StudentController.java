@@ -44,23 +44,23 @@ public class StudentController {
 
     @PostMapping
     @ApiOperation(value = "Create student")
-    public Student create(@Valid @RequestBody StudentDTO studentDTO,
+    public Student create(@Valid @RequestBody StudentDto studentDto,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return studentService.create(studentDTO);
+        return studentService.create(studentDto);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "Update student")
-    public Student delete(@PathVariable Long id,@Valid @RequestBody StudentDTO studentDTO,
+    public Student update(@PathVariable Long id,@Valid @RequestBody StudentDto studentDto,
                           BindingResult bindingResult) throws BindException
     {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return studentService.update(id,studentDTO);
+        return studentService.update(id,studentDto);
     }
 
     @DeleteMapping("/{id}")

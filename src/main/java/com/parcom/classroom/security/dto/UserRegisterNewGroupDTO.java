@@ -4,7 +4,7 @@ package com.parcom.classroom.security.dto;
 import lombok.Getter;
 
 @Getter
-public class UserRegisterNewGroupDTO extends UserRegisterDTO {
+public class UserRegisterNewGroupDto extends UserRegisterDto {
 
 
 
@@ -15,7 +15,7 @@ public class UserRegisterNewGroupDTO extends UserRegisterDTO {
     private final String nameGroup;
 
 
-    public UserRegisterNewGroupDTO(String username, String firstName, String middleName, String familyName, String email, String phone, String password, String passwordConfirm, Long idSchool, String nameSchool, String nameGroup) {
+    public UserRegisterNewGroupDto(String username, String firstName, String middleName, String familyName, String email, String phone, String password, String passwordConfirm, Long idSchool, String nameSchool, String nameGroup) {
         super(username, firstName, middleName, familyName, email, phone, password, passwordConfirm);
         this.idSchool = idSchool;
         this.nameSchool = nameSchool;

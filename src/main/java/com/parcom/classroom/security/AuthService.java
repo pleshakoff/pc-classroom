@@ -9,10 +9,10 @@ import com.parcom.classroom.model.student.StudentService;
 import com.parcom.classroom.model.user.TokenResource;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.UserRepository;
-import com.parcom.classroom.security.dto.UserAuthDTO;
-import com.parcom.classroom.security.dto.UserRegisterByGroupDTO;
-import com.parcom.classroom.security.dto.UserRegisterByStudentDTO;
-import com.parcom.classroom.security.dto.UserRegisterNewGroupDTO;
+import com.parcom.classroom.security.dto.UserAuthDto;
+import com.parcom.classroom.security.dto.UserRegisterByGroupDto;
+import com.parcom.classroom.security.dto.UserRegisterByStudentDto;
+import com.parcom.classroom.security.dto.UserRegisterNewGroupDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +33,7 @@ public class AuthService {
     private final SchoolService schoolService;
 
 
-   public User registerByGroup(UserRegisterByGroupDTO userDTO) {
+   public User registerByGroup(UserRegisterByGroupDto userDTO) {
         if (!userDTO.getPassword().equals(userDTO.getPasswordConfirm())) {
             throw new RuntimeException("Пароль и его подтверждение должны совпадать");
         }
@@ -66,7 +66,7 @@ public class AuthService {
    }
 
 
-    public User registerByStudent(UserRegisterByStudentDTO userDTO) {
+    public User registerByStudent(UserRegisterByStudentDto userDTO) {
         if (!userDTO.getPassword().equals(userDTO.getPasswordConfirm())) {
             throw new RuntimeException("Пароль и его подтверждение должны совпадать");
         }
@@ -93,7 +93,7 @@ public class AuthService {
         return user;
     }
 
-    User registerNewGroup(UserRegisterNewGroupDTO userDTO) {
+    User registerNewGroup(UserRegisterNewGroupDto userDTO) {
         if (!userDTO.getPassword().equals(userDTO.getPasswordConfirm())) {
             throw new RuntimeException("Пароль и его подтверждение должны совпадать");
         }
@@ -119,7 +119,7 @@ public class AuthService {
 
 
 
-    TokenResource authenticate(UserAuthDTO userAuthDTO) {
+    TokenResource authenticate(UserAuthDto userAuthDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =  new UsernamePasswordAuthenticationToken(userAuthDTO.getUsername(), userAuthDTO.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

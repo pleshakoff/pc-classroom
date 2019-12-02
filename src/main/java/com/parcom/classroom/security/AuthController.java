@@ -2,10 +2,10 @@ package com.parcom.classroom.security;
 
 import com.parcom.classroom.model.user.TokenResource;
 import com.parcom.classroom.model.user.User;
-import com.parcom.classroom.security.dto.UserAuthDTO;
-import com.parcom.classroom.security.dto.UserRegisterByGroupDTO;
-import com.parcom.classroom.security.dto.UserRegisterByStudentDTO;
-import com.parcom.classroom.security.dto.UserRegisterNewGroupDTO;
+import com.parcom.classroom.security.dto.UserAuthDto;
+import com.parcom.classroom.security.dto.UserRegisterByGroupDto;
+import com.parcom.classroom.security.dto.UserRegisterByStudentDto;
+import com.parcom.classroom.security.dto.UserRegisterNewGroupDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     @ApiOperation("Get user session token")
-    public TokenResource authenticate(@Valid @RequestBody UserAuthDTO userAuthDTO,
+    public TokenResource authenticate(@Valid @RequestBody UserAuthDto userAuthDTO,
                                       BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -41,7 +41,7 @@ public class AuthController {
 
     @PostMapping(value = "/register/member")
     @ApiOperation("Member of the parental committee registration")
-    public User registerMember(@Valid @RequestBody UserRegisterByGroupDTO userRegisterByGroupDTO,
+    public User registerMember(@Valid @RequestBody UserRegisterByGroupDto userRegisterByGroupDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -51,7 +51,7 @@ public class AuthController {
 
     @PostMapping(value = "/register/parent")
     @ApiOperation("Regular parent registration")
-    public User registerParent(@Valid @RequestBody UserRegisterByStudentDTO userRegisterByStudentDTO,
+    public User registerParent(@Valid @RequestBody UserRegisterByStudentDto userRegisterByStudentDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -61,7 +61,7 @@ public class AuthController {
 
     @PostMapping(value = "/register/newgroup")
     @ApiOperation("Create new group")
-    public User registerParent(@Valid @RequestBody UserRegisterNewGroupDTO userRegisterNewGroupDTO,
+    public User registerParent(@Valid @RequestBody UserRegisterNewGroupDto userRegisterNewGroupDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);

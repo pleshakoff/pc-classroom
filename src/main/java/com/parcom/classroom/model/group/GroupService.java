@@ -13,17 +13,12 @@ public class GroupService {
 
     private  final  GroupRepository groupRepository;
 
-
-    Group getCurrentGroup() {
-        return groupRepository.findById(UserUtils.getIdGroup()).orElseThrow(EntityNotFoundException::new);
+    public Group getCurrentGroup() {
+        return getById(UserUtils.getIdGroup());
     }
 
     public Group getById(Long idGroup) {
         return groupRepository.findById(idGroup).orElseThrow(EntityNotFoundException::new);
-    }
-
-    public Group getByUser() {
-        return getById(UserUtils.getIdGroup());
     }
 
 

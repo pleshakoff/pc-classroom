@@ -27,7 +27,7 @@ public class UserDetailsServiceDB implements UserDetailsService {
            return new UserDetailsPC(user);
        }
        else
-         throw  new BadCredentialsException(messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null, LocaleContextHolder.getLocale()));
+         throw  new BadCredentialsException(messageSource.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", null,"Bad credentials" ,LocaleContextHolder.getLocale()));
     }
 
 

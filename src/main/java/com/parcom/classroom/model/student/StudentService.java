@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentService {
 
-    public static final String STUDENT_NOT_FOUND = "Student not found";
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
     private final GroupService groupService;
@@ -51,19 +50,19 @@ public class StudentService {
     }
 
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
-    Student create(StudentDTO studentDTO){
+    Student create(StudentDto studentDTO){
         return studentRepository.save(
                 Student.builder().firstName(studentDTO.getFirstName()).
                                   middleName(studentDTO.getMiddleName()).
                                   familyName(studentDTO.getFamilyName()).
                                   birthDay(studentDTO.getBirthDay()).
-                                  group(groupService.getByUser()).
+                                  group(groupService.getCurrentGroup()).
                                   build()
         );
     }
 
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
-    Student update(Long id,StudentDTO studentDTO)
+    Student update(Long id, StudentDto studentDTO)
     {
         Student student = getById(id);
         student.setBirthDay(studentDTO.getBirthDay());

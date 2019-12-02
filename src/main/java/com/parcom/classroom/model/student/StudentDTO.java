@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @AllArgsConstructor
-public class StudentDTO {
+class StudentDto {
     @NotNull
     private String firstName;
     private String middleName;

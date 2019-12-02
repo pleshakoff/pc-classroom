@@ -7,8 +7,8 @@ import com.parcom.classroom.model.school.SchoolRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
 import com.parcom.classroom.security.AuthService;
-import com.parcom.classroom.security.dto.UserRegisterByGroupDTO;
-import com.parcom.classroom.security.dto.UserRegisterByStudentDTO;
+import com.parcom.classroom.security.dto.UserRegisterByGroupDto;
+import com.parcom.classroom.security.dto.UserRegisterByStudentDto;
 import lombok.extern.java.Log;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -33,7 +33,7 @@ public class InitDemoData {
         this.authService = authService;
     }
 
-    void run() {
+    private void run() {
 
         if (schoolRepository.count() > 0)
             return;
@@ -51,7 +51,7 @@ public class InitDemoData {
         log.info("Insert student 2");
         studentRepository.save(student2);
 
-        authService.registerByGroup(new UserRegisterByGroupDTO("admin",
+        authService.registerByGroup(new UserRegisterByGroupDto("admin",
                 "Антон",
                 "Викторович",
                 "Плешаков",
@@ -59,7 +59,7 @@ public class InitDemoData {
                 "00000", "00000", null,group.getId()));
 
 
-        authService.registerByStudent(new UserRegisterByStudentDTO("parent",
+        authService.registerByStudent(new UserRegisterByStudentDto("parent",
                 "Иванов",
                 "Иван",
                 "Иванович",
