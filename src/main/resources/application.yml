@@ -1,4 +1,5 @@
 spring:
+  application.name: pc-classroom
   hateoas:
     use-hal-as-default-json-media-type: false
   datasource:
