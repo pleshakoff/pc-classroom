@@ -4,11 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -40,6 +40,36 @@ public class StudentController {
     {
         return studentService.getStudents();
     }
+
+
+    @PostMapping
+    @ApiOperation(value = "Create student")
+    public Student create(@Valid @RequestBody StudentDTO studentDTO,
+                               BindingResult bindingResult) throws BindException {
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+        return studentService.create(studentDTO);
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "Update student")
+    public Student delete(@PathVariable Long id,@Valid @RequestBody StudentDTO studentDTO,
+                          BindingResult bindingResult) throws BindException
+    {
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+        return studentService.update(id,studentDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "Update student")
+    public void delete(@PathVariable Long id)
+    {
+        studentService.delete(id);
+    }
+
 
 
 

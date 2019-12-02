@@ -22,6 +22,11 @@ public class GroupService {
         return groupRepository.findById(idGroup).orElseThrow(EntityNotFoundException::new);
     }
 
+    public Group getByUser() {
+        return getById(UserUtils.getIdGroup());
+    }
+
+
     public Group create(String name, School school) {
         return groupRepository.save(Group.builder().name(name).
                                                     school(school).build());

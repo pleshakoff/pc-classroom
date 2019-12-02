@@ -1,5 +1,6 @@
 package com.parcom.classroom.model.student;
 
+import com.parcom.classroom.model.group.GroupService;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.security.UserUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class StudentService {
     public static final String STUDENT_NOT_FOUND = "Student not found";
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
+    private final GroupService groupService;
 
 
     public Student getById(@NotNull Long idStudent) {
@@ -43,9 +45,40 @@ public class StudentService {
     }
 
 
-    @Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     List<Student> getStudents() {
         return studentRepository.getStudents(UserUtils.getIdGroup());
+    }
+
+    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    Student create(StudentDTO studentDTO){
+        return studentRepository.save(
+                Student.builder().firstName(studentDTO.getFirstName()).
+                                  middleName(studentDTO.getMiddleName()).
+                                  familyName(studentDTO.getFamilyName()).
+                                  birthDay(studentDTO.getBirthDay()).
+                                  group(groupService.getByUser()).
+                                  build()
+        );
+    }
+
+    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    Student update(Long id,StudentDTO studentDTO)
+    {
+        Student student = getById(id);
+        student.setBirthDay(studentDTO.getBirthDay());
+        student.setFirstName(studentDTO.getFirstName());
+        student.setFamilyName(studentDTO.getFamilyName());
+        student.setMiddleName(studentDTO.getMiddleName());
+        return studentRepository.save(
+                student
+        );
+    }
+
+    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    void delete(Long id)
+    {
+        studentRepository.deleteById(id); ;
     }
 
 

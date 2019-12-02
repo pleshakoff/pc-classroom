@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -29,6 +30,9 @@ public class Student {
 
     @Column(nullable = false)
     private String familyName;
+
+    @Column
+    private LocalDate birthDay;
 
 
     @JsonIgnore
