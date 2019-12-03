@@ -33,6 +33,25 @@
 
 ## Логическая структура 
 
+Монолит с базой данных. 
+
 ![alt text](https://github.com/pleshakoff/pc-classroom/blob/master/pc-classroom_hw1.png?raw=true"")
 
+## Get started 
 
+Для запуска необходимо выполнить `docker-compose -f docker-compose-from-hub.yml up` запущен будет контейнер с сервисом из 
+публичного docker hub.
+Для сборки из исходников стандартный `docker-compose`
+
+Swagger доступен по адресу http://localhost:8080/swagger-ui.html
+
+В базе данных есть тестовые данные. Для авторизации необходимо выполнить метод 
+
+`​/auth​/login`
+
+`{
+  "username": "admin"
+  "password": "00000",
+}`
+
+Метод возвращает token, который надо передавать в заголовке X-Auth-Token при вызове всех остальных методов.  
