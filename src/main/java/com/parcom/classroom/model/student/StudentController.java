@@ -64,7 +64,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Update student")
+    @ApiOperation(value = "Delete student")
     public void delete(@PathVariable Long id)
     {
         studentService.delete(id);

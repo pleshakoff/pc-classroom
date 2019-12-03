@@ -51,7 +51,7 @@ public class NewsController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Update student")
+    @ApiOperation(value = "Delete news post")
     public void delete(@PathVariable Long id)
     {
         newsService.delete(id);
