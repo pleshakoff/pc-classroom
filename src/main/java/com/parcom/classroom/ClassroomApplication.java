@@ -23,6 +23,8 @@ public class ClassroomApplication {
 
 
 //	docker run --name classroom_pg -e POSTGRES_PASSWORD=parcom -d -p 5432:5432 postgres:11
+//  docker image build -t pleshakoff/pc-classroom:hw1 .
+//  docker image push pleshakoff/pc-classroom:hw1
 	public static void main(String[] args) {
 		SpringApplication.run(ClassroomApplication.class, args);
 	}
