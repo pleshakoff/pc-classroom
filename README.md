@@ -33,4 +33,6 @@
 
 ## Логическая структура 
 
+![alt text](https://github.com/pleshakoff/pc-classroom/blob/master/pc-classroom.png"")
+
 
