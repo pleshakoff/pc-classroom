@@ -3,7 +3,6 @@ package com.parcom.classroom.model.news;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.parcom.classroom.model.group.Group;
-import com.parcom.classroom.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,10 +31,8 @@ class News {
     @Column()
     private LocalDateTime dateTime;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Long  idUser;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,7 @@
 package com.parcom.classroom.model.group;
 
 import com.parcom.classroom.model.school.School;
-import com.parcom.classroom.security.UserUtils;
+import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

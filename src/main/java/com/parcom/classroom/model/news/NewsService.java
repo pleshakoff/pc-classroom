@@ -1,8 +1,7 @@
 package com.parcom.classroom.model.news;
 
 import com.parcom.classroom.model.group.GroupService;
-import com.parcom.classroom.model.user.UserService;
-import com.parcom.classroom.security.UserUtils;
+import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class NewsService {
 
     private final NewsRepository newsRepository;
     private final GroupService groupService;
-    private final UserService userService;
 
     List<NewsResource> getNews() {
         return newsRepository.getNews(UserUtils.getIdGroup()).stream().map(NewsResource::new).collect(Collectors.toList());
@@ -38,7 +36,7 @@ public class NewsService {
                         title(newsDto.getTitle()).
                         message(newsDto.getMessage()).
                         group(groupService.getCurrentGroup()).
-                        user(userService.getCurrentUser()).
+                        idUser(UserUtils.getIdUser()).
                         build()
         );
         return new NewsResource(news);

@@ -2,7 +2,6 @@ package com.parcom.classroom.model.student;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.parcom.classroom.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +20,8 @@ public class StudentToUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
-    private User user;
+    @Column(name = "id_user")
+    private Long idUser;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -18,7 +18,7 @@ public class NewsResource {
         this.id = news.getId();
         this.title = news.getTitle();
         this.message = news.getMessage();
-        this.author = news.getUser().getUsername();
+        this.author = news.getIdUser().toString();
         this.dateTime = news.getDateTime();
     }
 }

@@ -2,7 +2,7 @@ package com.parcom.classroom.model.student;
 
 import com.parcom.classroom.model.group.GroupService;
 import com.parcom.classroom.model.user.User;
-import com.parcom.classroom.security.UserUtils;
+import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class StudentService {
     }
 
     public StudentToUser linkStudentToUser(Student student, User user) {
-        return studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
+        return studentToUserRepository.save(StudentToUser.builder().student(student).idUser(user.getId()).build());
     }
 
     List<Student> getCurrentStudents() {

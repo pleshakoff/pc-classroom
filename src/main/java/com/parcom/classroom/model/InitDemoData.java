@@ -6,9 +6,7 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
-import com.parcom.classroom.security.AuthService;
-import com.parcom.classroom.security.dto.UserRegisterByGroupDto;
-import com.parcom.classroom.security.dto.UserRegisterByStudentDto;
+import com.parcom.classroom.model.user.RegisterService;
 import lombok.extern.java.Log;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -22,15 +20,15 @@ public class InitDemoData {
     private final SchoolRepository schoolRepository;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
-    private final AuthService authService;
+    private final RegisterService registerService;
 
 
 
-    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, AuthService authService) {
+    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, RegisterService registerService) {
         this.schoolRepository = schoolRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
-        this.authService = authService;
+        this.registerService = registerService;
     }
 
     private void run() {
@@ -51,20 +49,20 @@ public class InitDemoData {
         log.info("Insert student 2");
         studentRepository.save(student2);
 
-        authService.registerByGroup(new UserRegisterByGroupDto("admin",
-                "Антон",
-                "Викторович",
-                "Плешаков",
-                "pleshakoff@gmail.com", "123",
-                "00000", "00000", null,group.getId()));
-
-
-        authService.registerByStudent(new UserRegisterByStudentDto("parent",
-                "Иванов",
-                "Иван",
-                "Иванович",
-                "ivanov@gmail.com", "1234",
-                "00000", "00000", student2.getId()));
+//        registerService.registerByGroup(new UserRegisterByGroupDto("admin",
+//                "Антон",
+//                "Викторович",
+//                "Плешаков",
+//                "pleshakoff@gmail.com", "123",
+//                "00000", "00000", null,group.getId()));
+//
+//
+//        registerService.registerByStudent(new UserRegisterByStudentDto("parent",
+//                "Иванов",
+//                "Иван",
+//                "Иванович",
+//                "ivanov@gmail.com", "1234",
+//                "00000", "00000", student2.getId()));
     }
 
     @EventListener(ApplicationReadyEvent.class)
