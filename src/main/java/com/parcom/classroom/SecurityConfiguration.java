@@ -52,19 +52,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .addFilterBefore(new AuthenticationTokenProcessingFilter(userDetailsService(),messageSource),  UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationTokenProcessingFilter(messageSource),  UsernamePasswordAuthenticationFilter.class)
                  ;
-    }
-
-    @Bean(name = "userDetailsService")
-    public UserDetailsService userDetailsService(){
-        return new UserDetailsServiceDB(messageSource);
     }
 
 
     @Bean(name = "passwordEncoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return new UserDetailsServiceDB(messageSource);
     }
 
 

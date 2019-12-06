@@ -32,6 +32,14 @@ public class UserDetailsPC implements UserDetails {
         idGroup = user.getGroup().getId();
      }
 
+    public UserDetailsPC(String username, Long id, Collection<? extends GrantedAuthority> authorities, Long idGroup) {
+        this.username = username;
+        this.id = id;
+        this.authorities = authorities;
+        this.idGroup = idGroup;
+        password = null;
+        enabled = true;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

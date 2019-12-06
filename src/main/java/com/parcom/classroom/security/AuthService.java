@@ -43,7 +43,7 @@ public class AuthService {
 
        Group group = groupService.getById(userDTO.getIdGroup());
 
-       Student student = null;
+       Student student;
 
            User user = User.builder().email(userDTO.getEmail()).
                    enabled(true).
@@ -124,6 +124,6 @@ public class AuthService {
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsPC userDetail = (UserDetailsPC) authentication.getPrincipal();
-        return new TokenResource(TokenUtils.createToken(userDetail),userDetail.getId());
+        return new TokenResource(TokenCreate.createToken(userDetail),userDetail.getId());
     }
 }
