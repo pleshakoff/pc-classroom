@@ -3,7 +3,6 @@ package com.parcom.classroom;
 
 import com.parcom.security_client.AuthenticationTokenProcessingFilter;
 import com.parcom.security_client.UnauthorizedEntryPoint;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,12 +23,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
-    UnauthorizedEntryPoint unauthorizedEntryPoint;
+    private final  UnauthorizedEntryPoint unauthorizedEntryPoint;
 
-    @Autowired
-    AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter;
+    private final AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter;
 
+    public SecurityConfiguration(UnauthorizedEntryPoint unauthorizedEntryPoint, AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter) {
+        this.unauthorizedEntryPoint = unauthorizedEntryPoint;
+        this.authenticationTokenProcessingFilter = authenticationTokenProcessingFilter;
+    }
 
 
     @Override
@@ -47,22 +48,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(authenticationTokenProcessingFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
