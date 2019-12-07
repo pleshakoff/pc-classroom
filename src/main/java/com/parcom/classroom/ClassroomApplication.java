@@ -2,6 +2,7 @@ package com.parcom.classroom;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.Arrays;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @EnableSwagger2WebMvc
 @Import(SpringDataRestConfiguration.class)
 public class ClassroomApplication {

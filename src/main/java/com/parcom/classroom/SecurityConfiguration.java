@@ -12,14 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-/**
- * Created by zey on 26.04.2017.
- */
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true
-)
+@EnableWebSecurity()
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -39,7 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html/**",
                 "/swagger-resources/**",
                 "/v2/api-docs",
-                 "/health").
+                 "/health",
+                "/add/**").
                  permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
