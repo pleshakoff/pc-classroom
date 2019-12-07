@@ -50,8 +50,8 @@ Swagger доступен по адресу http://localhost:8080/swagger-ui.html
 `​/auth​/login`
 
 `{
-  "username": "admin"
-  "password": "00000",
+  "username": "admin",
+  "password": "00000"
 }`
 
 Метод возвращает token, который надо передавать в заголовке X-Auth-Token при вызове всех остальных методов.  
