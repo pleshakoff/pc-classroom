@@ -1,5 +1,6 @@
-package com.parcom.classroom.model.user;
+package com.parcom.classroom.model.add;
 
+import com.parcom.classroom.model.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -15,43 +16,41 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/register", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE},produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-@Api(tags="Register and authentication")
+@RequestMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE},produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+@Api(tags="Add people to group")
 @RequiredArgsConstructor
-public class RegisterController {
+public class AddController {
 
-    private final RegisterService registerService;
+    private final AddService addService;
 
-
-
-    @PostMapping(value = "/register/member")
-    @ApiOperation("Member of the parental committee registration")
-    public User registerMember(@Valid @RequestBody UserRegisterByGroupDto userRegisterByGroupDTO,
+    @PostMapping(value = "/member")
+    @ApiOperation("Add member of the parental committee")
+    public User registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return registerService.registerByGroup(userRegisterByGroupDTO);
+        return addService.registerByGroup(addMemberDTO);
     }
 
-    @PostMapping(value = "/register/parent")
-    @ApiOperation("Regular parent registration")
-    public User registerParent(@Valid @RequestBody UserRegisterByStudentDto userRegisterByStudentDTO,
+    @PostMapping(value = "/parent")
+    @ApiOperation("Add regular parent")
+    public User registerParent(@Valid @RequestBody AddParentDto addParentDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return registerService.registerByStudent(userRegisterByStudentDTO);
+        return addService.registerByStudent(addParentDTO);
     }
 
-    @PostMapping(value = "/register/newgroup")
-    @ApiOperation("Create new group")
-    public User registerParent(@Valid @RequestBody UserRegisterNewGroupDto userRegisterNewGroupDTO,
+    @PostMapping(value = "/group")
+    @ApiOperation("Add new group")
+    public User registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
                                BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
-        return registerService.registerNewGroup(userRegisterNewGroupDTO);
+        return addService.registerNewGroup(addGroupDTO);
     }
 
 

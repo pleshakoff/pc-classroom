@@ -6,7 +6,7 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentRepository;
-import com.parcom.classroom.model.user.RegisterService;
+import com.parcom.classroom.model.add.AddService;
 import lombok.extern.java.Log;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -20,15 +20,15 @@ public class InitDemoData {
     private final SchoolRepository schoolRepository;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
-    private final RegisterService registerService;
+    private final AddService addService;
 
 
 
-    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, RegisterService registerService) {
+    public InitDemoData(SchoolRepository schoolRepository, GroupRepository groupRepository, StudentRepository studentRepository, AddService addService) {
         this.schoolRepository = schoolRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
-        this.registerService = registerService;
+        this.addService = addService;
     }
 
     private void run() {
@@ -49,7 +49,7 @@ public class InitDemoData {
         log.info("Insert student 2");
         studentRepository.save(student2);
 
-//        registerService.registerByGroup(new UserRegisterByGroupDto("admin",
+//        registerService.registerByGroup(new AddMemberDto("admin",
 //                "Антон",
 //                "Викторович",
 //                "Плешаков",
@@ -57,7 +57,7 @@ public class InitDemoData {
 //                "00000", "00000", null,group.getId()));
 //
 //
-//        registerService.registerByStudent(new UserRegisterByStudentDto("parent",
+//        registerService.registerByStudent(new AddParentDto("parent",
 //                "Иванов",
 //                "Иван",
 //                "Иванович",
