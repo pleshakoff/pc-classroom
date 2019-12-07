@@ -1,15 +1,11 @@
 package com.parcom.classroom.model.user;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-import javax.persistence.Table;
-
-@Data
 @Builder
-@AllArgsConstructor
-@Table(name = "Users")
+@Getter
 public class User {
 
     private Long id;
@@ -24,6 +20,21 @@ public class User {
     private boolean enabled;
     private Long idGroup;
 
+    @JsonCreator
+    public User(Long id, String username, String firstName, String middleName, String familyName, String email, String phone, String password, String role, boolean enabled, Long idGroup) {
+
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.familyName = familyName;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.role = role;
+        this.enabled = enabled;
+        this.idGroup = idGroup;
+    }
 
 
 }

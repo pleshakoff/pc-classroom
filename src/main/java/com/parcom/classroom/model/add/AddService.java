@@ -37,6 +37,7 @@ public class AddService {
         UserCreateDto userCreateDto = UserCreateDto.builder().
                 email(addDto.getEmail()).
                 password(addDto.getPassword()).
+                passwordConfirm(addDto.passwordConfirm).
                 role(UserUtils.ROLE_MEMBER).
                 idGroup(addDto.getIdGroup()).build();
 
@@ -70,6 +71,7 @@ public class AddService {
 
         UserCreateDto userCreateDto = UserCreateDto.builder().email(addDto.getEmail()).
                 password(addDto.getPassword()).
+                passwordConfirm(addDto.passwordConfirm).
                 role(UserUtils.ROLE_PARENT).
                 idGroup(student.getGroup().getId()).build();
 
@@ -98,6 +100,7 @@ public class AddService {
         UserCreateDto userCreateDto = UserCreateDto.builder().
                 email(addDto.getEmail()).
                 password(addDto.getPassword()).
+                passwordConfirm(addDto.passwordConfirm).
                 role(UserUtils.ROLE_ADMIN).
                 idGroup(group.getId()).build();
 
