@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/groups",produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -24,6 +26,13 @@ public class GroupController {
 
        return groupService.getCurrentGroup();
     }
+
+    @GetMapping("/my")
+    @ApiOperation(value = "Get list of my groups")
+    public List<Group> getMyGroups()  {
+        return groupService.getMyGroups();
+    }
+
 
 
 

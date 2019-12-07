@@ -32,15 +32,19 @@ public class StudentService {
         return studentToUserRepository.save(StudentToUser.builder().student(student).idUser(user.getId()).build());
     }
 
-    List<Student> getCurrentStudents() {
+    List<Student> getMyStudents() {
         return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup());
     }
 
-    Student getCurrentStudent(Long id) {
-        return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
-                stream().
-                filter(student -> student.getId().equals(id)).
-                findFirst().orElseThrow(EntityNotFoundException::new);
+    Student getMyStudent(Long id) {
+        if (UserUtils.getRole().equals(UserUtils.ROLE_PARENT)) {
+            return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
+                    stream().
+                    filter(student -> student.getId().equals(id)).
+                    findFirst().orElseThrow(EntityNotFoundException::new);
+        }
+        else
+           return  getById(id);
     }
 
 

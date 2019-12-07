@@ -22,15 +22,9 @@ public class StudentController {
 
 
     @GetMapping
-    @ApiOperation(value = "Get current students")
-    public List<Student> getCurrentStudents()  {
-       return studentService.getCurrentStudents();
-    }
-
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Get current student by ID")
-    public Student getCurrentStudent(@PathVariable Long id)  {
-        return studentService.getCurrentStudent(id);
+    @ApiOperation(value = "Get my students")
+    public List<Student> getMyStudents()  {
+       return studentService.getMyStudents();
     }
 
 
@@ -40,6 +34,13 @@ public class StudentController {
     {
         return studentService.getStudents();
     }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get student by ID")
+    public Student getMyStudent(@PathVariable Long id)  {
+        return studentService.getMyStudent(id);
+    }
+
 
 
     @PostMapping
