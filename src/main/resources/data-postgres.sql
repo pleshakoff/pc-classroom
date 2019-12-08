@@ -70,4 +70,10 @@ VALUES (54, 22, 2);
 INSERT INTO public.group_to_user (id, id_group, id_user)
 VALUES (55, 22, 3);
 
+INSERT INTO public.news (id, date_time, id_user, message, title, id_group)
+VALUES (61, '2019-12-08 17:31:51.090000', 1, 'Уважаемые родители, необходимо СРОЧНО скинуться на покупку слона в класс. Слон нужен для урока биологии', 'Нужно больше денег', 21);
+
+INSERT INTO public.news (id, date_time, id_user, message, title, id_group)
+VALUES (62, '2019-12-08 17:33:43.381000', 2, 'В связи с проведением ежегодных праздничных торжества, все уроки отменяются. Ура!!!', 'Уроки отменяются', 21);
+
 SELECT setval('hibernate_sequence', 100, true);
