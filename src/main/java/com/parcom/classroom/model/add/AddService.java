@@ -24,14 +24,14 @@ public class AddService {
 
 
     @Transactional
-    public UserResourse registerByGroup(AddMemberDto addDto) {
+    public userSecurityDto registerByGroup(AddMemberDto addDto) {
 
         if (addDto.getIdGroup() == null) {
             throw new RuntimeException("Empty group");
         }
 
         Group group = groupService.getById(addDto.getIdGroup());
-        User user = userService.create();
+        User user = userService.create(addDto.email);
         groupService.linkGroupToUser(group,user);
 
         if (addDto.getIdStudent() != null) {
@@ -53,13 +53,13 @@ public class AddService {
 
 
     @Transactional
-    UserResourse registerByStudent(AddParentDto addDto) {
+    userSecurityDto registerByStudent(AddParentDto addDto) {
 
         if (addDto.getIdStudent() == null) {
             throw new RuntimeException("Empty student");
         }
         Student student = studentService.getById(addDto.getIdStudent());
-        User user = userService.create();
+        User user = userService.create(addDto.email);
         studentService.linkStudentToUser(student,user);
         groupService.linkGroupToUser(student.getGroup(),user);
 
@@ -75,14 +75,14 @@ public class AddService {
     }
 
     @Transactional
-    UserResourse registerNewGroup(AddGroupDto addDto) {
+    userSecurityDto registerNewGroup(AddGroupDto addDto) {
 
           if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
             throw new  RuntimeException("Необходимо выбрать школу или ввести наименование");
 
         School school = schoolService.getOrCreate(addDto.getIdSchool(),addDto.getNameSchool());
         Group group = groupService.create(addDto.getNameGroup(),school);
-        User user = userService.create();
+        User user = userService.create(addDto.email);
         groupService.linkGroupToUser(group,user);
 
         UserCreateDto userCreateDto = UserCreateDto.builder().

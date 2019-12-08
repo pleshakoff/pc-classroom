@@ -1,6 +1,6 @@
 package com.parcom.classroom.model.add;
 
-import com.parcom.classroom.model.user.UserResourse;
+import com.parcom.classroom.model.user.userSecurityDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class AddController {
 
     @PostMapping(value = "/member")
     @ApiOperation("Add member of the parental committee")
-    public UserResourse registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
-                                       BindingResult bindingResult) throws BindException {
+    public userSecurityDto registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
+                                          BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -35,8 +35,8 @@ public class AddController {
 
     @PostMapping(value = "/parent")
     @ApiOperation("Add regular parent")
-    public UserResourse registerParent(@Valid @RequestBody AddParentDto addParentDTO,
-                                       BindingResult bindingResult) throws BindException {
+    public userSecurityDto registerParent(@Valid @RequestBody AddParentDto addParentDTO,
+                                          BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -45,8 +45,8 @@ public class AddController {
 
     @PostMapping(value = "/group")
     @ApiOperation("Add new group")
-    public UserResourse registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
-                                       BindingResult bindingResult) throws BindException {
+    public userSecurityDto registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
+                                          BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }

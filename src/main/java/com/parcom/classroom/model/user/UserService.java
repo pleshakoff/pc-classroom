@@ -31,8 +31,9 @@ public class UserService {
         return userRepository.findById(idUser).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
-    public User create(){
-        return userRepository.save(User.builder().build());
+    public User create(String email){
+
+        return userRepository.save( User.builder().email(email).build());
     }
 
     private HttpHeaders getHttpHeaders() {
@@ -42,14 +43,13 @@ public class UserService {
         return headers;
     }
 
-    public UserResourse register(UserCreateDto userCreateDto){
+    public userSecurityDto register(UserCreateDto userCreateDto){
 
         HttpHeaders headers = getHttpHeaders();
-        URI http = UriComponentsBuilder.newInstance()
-                .scheme("http").host(securityHost).port(securityPort).path("/users/register").build().toUri();
+        URI http = UriComponentsBuilder.newInstance().scheme("http").host(securityHost).port(securityPort).path("/users/register").build().toUri();
 
         HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto,headers);
-        ResponseEntity<UserResourse> userResponseEntity = restTemplate.postForEntity(http, requestBody, UserResourse.class);
+        ResponseEntity<userSecurityDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityDto.class);
         if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
             return userResponseEntity.getBody();
         }

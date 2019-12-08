@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @RequiredArgsConstructor
 public class UserCreateDto {
 
-
     @NotNull
     private final Long id;
 
@@ -31,5 +30,6 @@ public class UserCreateDto {
 
     @NotNull
     private final Long idGroup;
+
 }
 

@@ -36,7 +36,7 @@ public class ClassroomApplication {
 		return new Docket(DocumentationType.SWAGGER_2).globalOperationParameters(
 				Arrays.asList(new ParameterBuilder()
 						.name("X-Auth-Token")
-						.description("UserResourse session token")
+						.description("userSecurityDto session token")
 						.modelRef(new ModelRef("string"))
 						.parameterType("header")
 						.required(false)
