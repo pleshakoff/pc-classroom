@@ -1,6 +1,7 @@
 package com.parcom.classroom.model.student;
 
 import com.parcom.classroom.model.group.GroupService;
+import com.parcom.classroom.model.user.User;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -27,8 +28,9 @@ public class StudentService {
         return studentRepository.findById(idStudent).orElse(null);
     }
 
-    public StudentToUser linkStudentToUser(Student student, Long idUser) {
-        return studentToUserRepository.save(StudentToUser.builder().student(student).idUser(idUser).build());
+    public StudentToUser linkStudentToUser(Student student, User user) {
+
+        return studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
     }
 
     List<Student> getMyStudents() {

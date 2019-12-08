@@ -1,6 +1,6 @@
 package com.parcom.classroom.model.add;
 
-import com.parcom.classroom.model.user.User;
+import com.parcom.classroom.model.user.UserResourse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE},produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-@Api(tags="Add people to group")
+@Api(tags="Add to parents committee")
 @RequiredArgsConstructor
 public class AddController {
 
@@ -25,8 +25,8 @@ public class AddController {
 
     @PostMapping(value = "/member")
     @ApiOperation("Add member of the parental committee")
-    public User registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
-                               BindingResult bindingResult) throws BindException {
+    public UserResourse registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
+                                       BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -35,8 +35,8 @@ public class AddController {
 
     @PostMapping(value = "/parent")
     @ApiOperation("Add regular parent")
-    public User registerParent(@Valid @RequestBody AddParentDto addParentDTO,
-                               BindingResult bindingResult) throws BindException {
+    public UserResourse registerParent(@Valid @RequestBody AddParentDto addParentDTO,
+                                       BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -45,8 +45,8 @@ public class AddController {
 
     @PostMapping(value = "/group")
     @ApiOperation("Add new group")
-    public User registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
-                               BindingResult bindingResult) throws BindException {
+    public UserResourse registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
+                                       BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }

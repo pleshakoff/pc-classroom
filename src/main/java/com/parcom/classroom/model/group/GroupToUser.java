@@ -2,6 +2,7 @@ package com.parcom.classroom.model.group;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.parcom.classroom.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,10 @@ public class GroupToUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "id_user")
-    private Long idUser;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", referencedColumnName = "id", nullable = false)
+    private User user;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

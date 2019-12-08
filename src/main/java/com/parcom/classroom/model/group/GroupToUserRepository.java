@@ -10,7 +10,7 @@ import java.util.List;
 public interface GroupToUserRepository extends CrudRepository<GroupToUser, Long> {
 
     @Query("select  g.group from GroupToUser g " +
-            "where idUser = :idUser ")
+            "where g.user.id = :idUser ")
 
     List<Group> findMyGroups(@Param("idUser") Long idUser);
 

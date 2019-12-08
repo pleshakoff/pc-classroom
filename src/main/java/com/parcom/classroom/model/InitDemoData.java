@@ -20,7 +20,6 @@ public class InitDemoData {
     private final SchoolRepository schoolRepository;
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
-    private final AddService addService;
 
 
 
@@ -28,7 +27,6 @@ public class InitDemoData {
         this.schoolRepository = schoolRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
-        this.addService = addService;
     }
 
     private void run() {

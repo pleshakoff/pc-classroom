@@ -1,6 +1,7 @@
 package com.parcom.classroom.model.group;
 
 import com.parcom.classroom.model.school.School;
+import com.parcom.classroom.model.user.User;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,12 @@ public class GroupService {
     public List<Group> getMyGroups() {
         return groupToUserRepository.findMyGroups(UserUtils.getIdUser());
     }
+
+    public GroupToUser linkGroupToUser(Group group, User user) {
+
+        return groupToUserRepository.save(GroupToUser.builder().group(group).user(user).build());
+    }
+
 
 
     public Group getById(Long idGroup) {
