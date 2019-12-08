@@ -24,10 +24,6 @@ public class GroupService {
         return groupToUserRepository.findMyGroups(UserUtils.getIdUser());
     }
 
-    public GroupToUser linkGroupToUser(Group group, User user) {
-
-        return groupToUserRepository.save(GroupToUser.builder().group(group).user(user).build());
-    }
 
 
 

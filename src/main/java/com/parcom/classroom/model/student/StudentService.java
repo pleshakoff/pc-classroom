@@ -15,23 +15,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentService {
 
+    public static final String STUDENT_NOT_FOUND = "Student not found";
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
     private final GroupService groupService;
 
 
     public Student getById(@NotNull Long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        return studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException(STUDENT_NOT_FOUND));
     }
 
     public Student getByOrNull(@NotNull Long idStudent) {
         return studentRepository.findById(idStudent).orElse(null);
     }
 
-    public StudentToUser linkStudentToUser(Student student, User user) {
-
-        return studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
-    }
 
     List<Student> getMyStudents() {
         return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup());
@@ -39,10 +36,10 @@ public class StudentService {
 
     Student getMyStudent(Long id) {
         if (UserUtils.getRole().equals(UserUtils.ROLE_PARENT)) {
-            return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup()).
+            return getMyStudents().
                     stream().
                     filter(student -> student.getId().equals(id)).
-                    findFirst().orElseThrow(EntityNotFoundException::new);
+                    findFirst().orElseThrow(() -> new EntityNotFoundException(STUDENT_NOT_FOUND));
         }
         else
            return  getById(id);

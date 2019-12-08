@@ -32,11 +32,11 @@ public class AddService {
 
         Group group = groupService.getById(addDto.getIdGroup());
         User user = userService.create(addDto.email);
-        groupService.linkGroupToUser(group,user);
+        userService.addUserToGroup(group,user);
 
         if (addDto.getIdStudent() != null) {
             Student student = studentService.getByOrNull(addDto.getIdStudent());
-            studentService.linkStudentToUser(student, user);
+            userService.addUserToStudent(student, user);
         }
 
         UserCreateDto userCreateDto = UserCreateDto.builder().
@@ -47,7 +47,7 @@ public class AddService {
                 role(UserUtils.ROLE_MEMBER).
                 idGroup(addDto.getIdGroup()).build();
 
-        return userService.register(userCreateDto);
+        return userService.registerInSecurity(userCreateDto);
 
     }
 
@@ -60,8 +60,8 @@ public class AddService {
         }
         Student student = studentService.getById(addDto.getIdStudent());
         User user = userService.create(addDto.email);
-        studentService.linkStudentToUser(student,user);
-        groupService.linkGroupToUser(student.getGroup(),user);
+        userService.addUserToStudent(student,user);
+        userService.addUserToGroup(student.getGroup(),user);
 
         UserCreateDto userCreateDto = UserCreateDto.builder().
                 id(user.getId()).
@@ -71,7 +71,7 @@ public class AddService {
                 role(UserUtils.ROLE_PARENT).
                 idGroup(student.getGroup().getId()).build();
 
-        return userService.register(userCreateDto);
+        return userService.registerInSecurity(userCreateDto);
     }
 
     @Transactional
@@ -83,7 +83,7 @@ public class AddService {
         School school = schoolService.getOrCreate(addDto.getIdSchool(),addDto.getNameSchool());
         Group group = groupService.create(addDto.getNameGroup(),school);
         User user = userService.create(addDto.email);
-        groupService.linkGroupToUser(group,user);
+        userService.addUserToGroup(group,user);
 
         UserCreateDto userCreateDto = UserCreateDto.builder().
                 id(user.getId()).
@@ -93,7 +93,7 @@ public class AddService {
                 role(UserUtils.ROLE_ADMIN).
                 idGroup(group.getId()).build();
 
-        return userService.register(userCreateDto);
+        return userService.registerInSecurity(userCreateDto);
     }
 
 
