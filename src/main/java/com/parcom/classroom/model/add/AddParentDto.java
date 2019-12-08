@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class AddParentDto extends AddDto {
 
-    @NotNull
+
     protected final Long idStudent;
 
 

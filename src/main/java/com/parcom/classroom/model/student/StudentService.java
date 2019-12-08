@@ -20,7 +20,7 @@ public class StudentService {
 
 
     public Student getById(@NotNull Long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(EntityNotFoundException::new);
+        return studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
     public Student getByOrNull(@NotNull Long idStudent) {

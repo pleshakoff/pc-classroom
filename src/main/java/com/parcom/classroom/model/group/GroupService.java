@@ -25,7 +25,7 @@ public class GroupService {
 
 
     public Group getById(Long idGroup) {
-        return groupRepository.findById(idGroup).orElseThrow(EntityNotFoundException::new);
+        return groupRepository.findById(idGroup).orElseThrow(() -> new EntityNotFoundException("Group not found"));
     }
 
     public Group create(String name, School school) {
