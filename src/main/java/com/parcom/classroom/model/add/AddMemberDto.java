@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Getter
-public class AddMemberDto extends AddParentDto {
+class AddMemberDto extends AddParentDto {
 
     @NotNull
     private final Long idGroup;

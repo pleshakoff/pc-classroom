@@ -82,7 +82,7 @@ public class StudentService {
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     void delete(Long id)
     {
-        studentRepository.deleteById(id); ;
+        studentRepository.deleteById(id);
     }
 
 

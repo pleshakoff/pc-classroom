@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Created by apleshakov on 17.02.2015.
- */
+
 @Getter
 @Setter
 @NoArgsConstructor

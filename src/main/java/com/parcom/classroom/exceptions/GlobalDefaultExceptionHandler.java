@@ -16,17 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import static java.util.Optional.ofNullable;
 
-/**
- * Created by apleshakov on 16.02.2015.
- */
+
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalDefaultExceptionHandler {
 
     private final MessageSource messageSource;
-    private static Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
-    public static ExceptionResource getExceptionResource(HttpServletRequest request, Exception ex, String message) {
+    private static ExceptionResource getExceptionResource(HttpServletRequest request, Exception ex, String message) {
         logger.error(String.format("Method: \"%s\"; URI: \"%s\" ", request.getMethod(), request.getRequestURI().toString()));
         logger.error(ex.getMessage(), ex);
         ExceptionResource result = new ExceptionResource();
