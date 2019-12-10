@@ -53,7 +53,7 @@ public class AddService {
 
 
     @Transactional
-    userSecurityDto registerByStudent(AddParentDto addDto) {
+    public userSecurityDto registerByStudent(AddParentDto addDto) {
 
         if (addDto.getIdStudent() == null) {
             throw new RuntimeException("Empty student");
@@ -75,7 +75,7 @@ public class AddService {
     }
 
     @Transactional
-    userSecurityDto registerNewGroup(AddGroupDto addDto) {
+    public userSecurityDto registerNewGroup(AddGroupDto addDto) {
 
           if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
             throw new  RuntimeException("Необходимо выбрать школу или ввести наименование");

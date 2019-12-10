@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Getter
-class AddParentDto extends AddDto {
+public class AddParentDto extends AddDto {
 
 
     protected final Long idStudent;

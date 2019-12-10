@@ -6,7 +6,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotNull;
 
 @Getter
-class AddGroupDto extends AddDto {
+class AddGroupDto extends AddDto  {
 
 
 
