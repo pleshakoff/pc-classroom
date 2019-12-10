@@ -1,10 +1,10 @@
 parcom:
   services:
     security:
-      host: 127.0.0.1
+      host: pc-security
       port: 8081
     notification:
-      host: 127.0.0.1
+      host: pc-notifier
       port: 8083
 
 spring:
@@ -12,7 +12,7 @@ spring:
   hateoas:
     use-hal-as-default-json-media-type: false
   datasource:
-    url: jdbc:postgresql://postgres:5432/postgres
+    url: jdbc:postgresql://pc-classroom-pg:5432/postgres
     username: postgres
     password: parcom
     platform: postgres
