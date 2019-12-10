@@ -6,12 +6,14 @@ import com.parcom.classroom.model.group.GroupToUserRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentToUser;
 import com.parcom.classroom.model.student.StudentToUserRepository;
+import com.parcom.classroom.utils.RestTemplateUtils;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -20,7 +22,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,14 +60,12 @@ public class UserService {
     }
 
 
-
     public User getById(@NotNull Long id) {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
             throw new EntityNotFoundException(USER_NOT_FOUND);
         return allInGroup().stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
     }
 
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     public List<User> allInGroup(){
         return groupToUserRepository.findMyGroupUsers(UserUtils.getIdGroup());
     }
@@ -86,14 +85,7 @@ public class UserService {
     }
 
 
-    private HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return headers;
-    }
-
-    @Transactional
+      @Transactional
     public void delete(Long id){
 
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
@@ -102,17 +94,15 @@ public class UserService {
         userRepository.deleteById(id);
 
         URI http = UriComponentsBuilder.newInstance()
-                .scheme("http").host(securityHost).port(securityPort).path("/users/delete").queryParam("id",id).build().toUri();
+                .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/delete").queryParam("id",id).build().toUri();
         restTemplate.delete(http);
     }
 
 
     public userSecurityDto registerInSecurity(UserCreateDto userCreateDto){
+       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/registerInSecurity").build().toUri();
 
-        HttpHeaders headers = getHttpHeaders();
-        URI http = UriComponentsBuilder.newInstance().scheme("http").host(securityHost).port(securityPort).path("/users/registerInSecurity").build().toUri();
-
-        HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto,headers);
+        HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, RestTemplateUtils.getHttpHeaders());
         ResponseEntity<userSecurityDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityDto.class);
         if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
             return userResponseEntity.getBody();

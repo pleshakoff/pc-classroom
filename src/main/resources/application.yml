@@ -3,6 +3,9 @@ parcom:
     security:
       host: 127.0.0.1
       port: 8081
+    notification:
+      host: 127.0.0.1
+      port: 8083
 
 spring:
   application.name: pc-classroom

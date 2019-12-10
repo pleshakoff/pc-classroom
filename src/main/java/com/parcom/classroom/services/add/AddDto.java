@@ -1,4 +1,4 @@
-package com.parcom.classroom.model.add;
+package com.parcom.classroom.services.add;
 
 
 import lombok.AllArgsConstructor;

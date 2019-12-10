@@ -1,6 +1,8 @@
 package com.parcom.classroom.model.news;
 
 import com.parcom.classroom.model.group.GroupService;
+import com.parcom.classroom.services.notification.NotificationDto;
+import com.parcom.classroom.services.notification.NotificationService;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -12,12 +14,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.parcom.classroom.services.notification.NotificationType.NEWS;
+
 @Service
 @RequiredArgsConstructor
 public class NewsService {
 
     private final NewsRepository newsRepository;
     private final GroupService groupService;
+    private final NotificationService notificationService;
 
     List<NewsResource> getNews() {
         return newsRepository.getNews(UserUtils.getIdGroup()).stream().map(NewsResource::new).collect(Collectors.toList());
@@ -39,6 +44,10 @@ public class NewsService {
                         idUser(UserUtils.getIdUser()).
                         build()
         );
+        notificationService.sendGroup(
+                new NotificationDto(NEWS,news.getTitle(),news.getMessage(),news.getId(),news.getIdUser())
+        );
+
         return new NewsResource(news);
     }
 
