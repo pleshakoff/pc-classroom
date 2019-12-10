@@ -47,7 +47,7 @@ public class UserService {
         return userRepository.save( User.builder().email(email).build());
     }
 
-    public User current(){
+    User current(){
         return userRepository.findById(UserUtils.getIdUser()).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
     }
 
@@ -60,13 +60,13 @@ public class UserService {
     }
 
 
-    public User getById(@NotNull Long id) {
+    User getById(@NotNull Long id) {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
             throw new EntityNotFoundException(USER_NOT_FOUND);
         return allInGroup().stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
     }
 
-    public List<User> allInGroup(){
+    List<User> allInGroup(){
         return groupToUserRepository.findMyGroupUsers(UserUtils.getIdGroup());
     }
 
