@@ -1,5 +1,6 @@
 package com.parcom.classroom.services.add;
 
+import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.userSecurityDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ public class AddController {
 
     @PostMapping(value = "/member")
     @ApiOperation("Add member of the parental committee")
-    public userSecurityDto registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
+    public User registerMember(@Valid @RequestBody AddMemberDto addMemberDTO,
                                           BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -35,7 +36,7 @@ public class AddController {
 
     @PostMapping(value = "/parent")
     @ApiOperation("Add regular parent")
-    public userSecurityDto registerParent(@Valid @RequestBody AddParentDto addParentDTO,
+    public User registerParent(@Valid @RequestBody AddParentDto addParentDTO,
                                           BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -45,8 +46,8 @@ public class AddController {
 
     @PostMapping(value = "/group")
     @ApiOperation("Add new group")
-    public userSecurityDto registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
-                                          BindingResult bindingResult) throws BindException {
+    public User registerParent(@Valid @RequestBody AddGroupDto addGroupDTO,
+                               BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }

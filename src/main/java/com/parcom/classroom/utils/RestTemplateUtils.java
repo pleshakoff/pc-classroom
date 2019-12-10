@@ -17,9 +17,12 @@ public class RestTemplateUtils {
         return headers;
     }
 
-    public  static HttpEntity entity = new HttpEntity(getHttpHeaders());
 
-    public static  String scheme = "http";
+    public static HttpEntity getHttpEntity() {
+       return new HttpEntity(getHttpHeaders());
+    }
+
+    public final static String scheme = "http";
 
 
 }

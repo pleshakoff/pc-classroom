@@ -24,7 +24,7 @@ public class AddService {
 
 
     @Transactional
-    public userSecurityDto registerByGroup(AddMemberDto addDto) {
+    public User registerByGroup(AddMemberDto addDto) {
 
         if (addDto.getIdGroup() == null) {
             throw new RuntimeException("Empty group");
@@ -36,7 +36,9 @@ public class AddService {
 
         if (addDto.getIdStudent() != null) {
             Student student = studentService.getByOrNull(addDto.getIdStudent());
-            userService.addUserToStudent(student, user);
+            if (student != null) {
+                userService.addUserToStudent(student, user);
+            }
         }
 
         UserCreateDto userCreateDto = UserCreateDto.builder().
@@ -47,13 +49,14 @@ public class AddService {
                 role(UserUtils.ROLE_MEMBER).
                 idGroup(addDto.getIdGroup()).build();
 
-        return userService.registerInSecurity(userCreateDto);
+        userService.registerInSecurity(userCreateDto);
+        return user;
 
     }
 
 
     @Transactional
-    public userSecurityDto registerByStudent(AddParentDto addDto) {
+    public User registerByStudent(AddParentDto addDto) {
 
         if (addDto.getIdStudent() == null) {
             throw new RuntimeException("Empty student");
@@ -71,11 +74,12 @@ public class AddService {
                 role(UserUtils.ROLE_PARENT).
                 idGroup(student.getGroup().getId()).build();
 
-        return userService.registerInSecurity(userCreateDto);
+                userService.registerInSecurity(userCreateDto);
+                return user;
     }
 
     @Transactional
-    public userSecurityDto registerNewGroup(AddGroupDto addDto) {
+    public User registerNewGroup(AddGroupDto addDto) {
 
           if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
             throw new  RuntimeException("Необходимо выбрать школу или ввести наименование");
@@ -93,7 +97,8 @@ public class AddService {
                 role(UserUtils.ROLE_ADMIN).
                 idGroup(group.getId()).build();
 
-        return userService.registerInSecurity(userCreateDto);
+        userService.registerInSecurity(userCreateDto);
+        return user;
     }
 
 

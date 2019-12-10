@@ -44,6 +44,12 @@ public class UserService {
 
 
     public User create(String email){
+        if (userRepository.findUserByEmail(email) != null) {
+
+            throw  new RuntimeException("Email уже существует");
+
+        }
+
         return userRepository.save( User.builder().email(email).build());
     }
 
@@ -51,11 +57,11 @@ public class UserService {
         return userRepository.findById(UserUtils.getIdUser()).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
     }
 
-    public void addUserToGroup(Group group, User user) {
+    public void addUserToGroup(@NotNull Group group,@NotNull User user) {
         groupToUserRepository.save(GroupToUser.builder().group(group).user(user).build());
     }
 
-    public void addUserToStudent(Student student, User user) {
+    public void addUserToStudent(@NotNull Student student, @NotNull User user) {
         studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
     }
 
@@ -100,7 +106,7 @@ public class UserService {
 
 
     public userSecurityDto registerInSecurity(UserCreateDto userCreateDto){
-       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/registerInSecurity").build().toUri();
+       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/register").build().toUri();
 
         HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, RestTemplateUtils.getHttpHeaders());
         ResponseEntity<userSecurityDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityDto.class);
