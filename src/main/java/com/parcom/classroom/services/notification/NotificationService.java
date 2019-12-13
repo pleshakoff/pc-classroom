@@ -1,6 +1,6 @@
 package com.parcom.classroom.services.notification;
 
-import com.parcom.classroom.utils.RestTemplateUtils;
+import com.parcom.rest_template.RestTemplateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

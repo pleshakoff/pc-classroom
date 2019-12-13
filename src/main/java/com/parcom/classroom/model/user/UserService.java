@@ -6,7 +6,7 @@ import com.parcom.classroom.model.group.GroupToUserRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentToUser;
 import com.parcom.classroom.model.student.StudentToUserRepository;
-import com.parcom.classroom.utils.RestTemplateUtils;
+import com.parcom.rest_template.RestTemplateUtils;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,7 +100,7 @@ public class UserService {
         userRepository.deleteById(id);
 
         URI http = UriComponentsBuilder.newInstance()
-                .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/delete").queryParam("id",id).build().toUri();
+                .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/delete").queryParam("id", id).build().toUri();
         restTemplate.delete(http);
     }
 

@@ -46,4 +46,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
+
+
 }
