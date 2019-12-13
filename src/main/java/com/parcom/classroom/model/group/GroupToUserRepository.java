@@ -18,5 +18,8 @@ public interface GroupToUserRepository extends CrudRepository<GroupToUser, Long>
             "where g.group.id = :idGroup ")
     List<User> findMyGroupUsers(@Param("idGroup") Long idGroup);
 
+    void deleteAllByUser(User user);
+    void deleteAllByGroup(Group group);
+
 
 }

@@ -1,5 +1,6 @@
 package com.parcom.classroom.model.student;
 
+import com.parcom.classroom.model.user.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,9 @@ public interface StudentToUserRepository extends CrudRepository<StudentToUser, L
             "   and su.student.group.id =  :idGroup " +
             "order by su.student.familyName" )
     List<Student> getCurrentStudents(@Param("idUser") Long idUser, @Param("idGroup") Long idGroup);
+
+    void deleteAllByUser(User user);
+    void deleteAllByStudent(Student student);
 
 
 

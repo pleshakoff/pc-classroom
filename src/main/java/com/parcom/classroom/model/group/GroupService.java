@@ -20,12 +20,9 @@ public class GroupService {
         return getById(UserUtils.getIdGroup());
     }
 
-    public List<Group> getMyGroups() {
+    List<Group> getMyGroups() {
         return groupToUserRepository.findMyGroups(UserUtils.getIdUser());
     }
-
-
-
 
     public Group getById(Long idGroup) {
         return groupRepository.findById(idGroup).orElseThrow(() -> new EntityNotFoundException("Group not found"));

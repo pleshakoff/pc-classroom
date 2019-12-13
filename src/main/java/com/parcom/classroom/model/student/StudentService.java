@@ -79,6 +79,8 @@ public class StudentService {
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     void delete(Long id)
     {
+
+        studentToUserRepository.deleteAllByStudent(getById(id));
         studentRepository.deleteById(id);
     }
 

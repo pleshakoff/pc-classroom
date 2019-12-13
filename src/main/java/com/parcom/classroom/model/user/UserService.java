@@ -11,6 +11,7 @@ import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,6 +31,7 @@ import java.util.Objects;
 public class UserService {
 
     private static final String USER_NOT_FOUND = "User not found";
+    public static final String USERS_URL = "users";
 
     private final UserRepository userRepository;
     private  final RestTemplate restTemplate;
@@ -91,27 +93,34 @@ public class UserService {
     }
 
 
-      @Transactional
+    @Transactional
     public void delete(Long id){
 
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
             throw new AccessDeniedException("User update forbidden");
 
+        User user = getById(id);
+        groupToUserRepository.deleteAllByUser(user);
+        studentToUserRepository.deleteAllByUser(user);
         userRepository.deleteById(id);
 
-        URI http = UriComponentsBuilder.newInstance()
-                .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/delete").queryParam("id", id).build().toUri();
-        restTemplate.delete(http);
+        URI url = UriComponentsBuilder.newInstance()
+              .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/").path(id.toString()).build().toUri();
+
+
+       restTemplate.exchange(url, HttpMethod.DELETE, RestTemplateUtils.getHttpEntity(), String.class);
+
+
     }
 
 
-    public userSecurityDto registerInSecurity(UserCreateDto userCreateDto){
-       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/users/register").build().toUri();
+    public void registerInSecurity(UserCreateDto userCreateDto){
+       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/register").build().toUri();
 
         HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, RestTemplateUtils.getHttpHeaders());
         ResponseEntity<userSecurityDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityDto.class);
         if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
-            return userResponseEntity.getBody();
+            userResponseEntity.getBody();
         }
         else
         {
