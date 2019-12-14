@@ -22,7 +22,7 @@ public class UserController {
 
 
     @GetMapping
-    @ApiOperation(value = "Get current")
+    @ApiOperation(value = "Get current user")
     public User current()  {
        return userService.current();
     }

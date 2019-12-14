@@ -21,14 +21,14 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("/current")
+    @GetMapping()
     @ApiOperation(value = "Get current student")
     public Student getCurrentStudent()  {
 
         return studentService.getCurrentStudent();
     }
 
-    @GetMapping
+    @GetMapping("/my")
     @ApiOperation(value = "Get my students")
     public List<Student> getMyStudents()  {
        return studentService.getMyStudents();
@@ -46,7 +46,6 @@ public class StudentController {
     public Student getMyStudent(@PathVariable Long id)  {
         return studentService.getMyStudent(id);
     }
-
 
 
     @PostMapping

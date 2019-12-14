@@ -1,8 +1,6 @@
 package com.parcom.classroom.model.student;
 
-import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupService;
-import com.parcom.classroom.model.user.User;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -31,12 +29,14 @@ public class StudentService {
     }
 
     Student getCurrentStudent() {
+        if (UserUtils.getIdStudent()==null)
+            return null;
         return getById(UserUtils.getIdStudent());
     }
 
 
     List<Student> getMyStudents() {
-        return studentToUserRepository.getCurrentStudents(UserUtils.getIdUser(), UserUtils.getIdGroup());
+        return studentToUserRepository.getMyStudents(UserUtils.getIdUser());
     }
 
     Student getMyStudent(Long id) {
