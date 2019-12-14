@@ -1,5 +1,6 @@
 package com.parcom.classroom.model.student;
 
+import com.parcom.classroom.model.group.Group;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,18 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    @GetMapping("/current")
+    @ApiOperation(value = "Get current student")
+    public Student getCurrentStudent()  {
+
+        return studentService.getCurrentStudent();
+    }
 
     @GetMapping
     @ApiOperation(value = "Get my students")
     public List<Student> getMyStudents()  {
        return studentService.getMyStudents();
     }
-
 
     @GetMapping("/all")
     @ApiOperation(value = "Get all students in group")

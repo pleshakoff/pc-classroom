@@ -47,7 +47,8 @@ public class AddService {
                 password(addDto.getPassword()).
                 passwordConfirm(addDto.passwordConfirm).
                 role(UserUtils.ROLE_MEMBER).
-                idGroup(addDto.getIdGroup()).build();
+                idGroup(addDto.getIdGroup()).
+                idStudent(addDto.getIdStudent()).build();
 
         userService.registerInSecurity(userCreateDto);
         return user;
@@ -72,7 +73,8 @@ public class AddService {
                 password(addDto.getPassword()).
                 passwordConfirm(addDto.passwordConfirm).
                 role(UserUtils.ROLE_PARENT).
-                idGroup(student.getGroup().getId()).build();
+                idGroup(student.getGroup().getId()).
+                idStudent(addDto.getIdStudent()).build();
 
                 userService.registerInSecurity(userCreateDto);
                 return user;

@@ -8,13 +8,15 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @Getter
 @RequiredArgsConstructor
-public class userSecurityDto {
+public class userSecurityResponseDto {
 
     private final Long id;
     private final String username;
     private final String role;
     private final boolean enabled;
     private final Long idGroup;
+    private final Long idStudent;
+
 
 
 }

@@ -118,7 +118,7 @@ public class UserService {
        URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/register").build().toUri();
 
         HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, RestTemplateUtils.getHttpHeaders());
-        ResponseEntity<userSecurityDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityDto.class);
+        ResponseEntity<userSecurityResponseDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityResponseDto.class);
         if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
             userResponseEntity.getBody();
         }

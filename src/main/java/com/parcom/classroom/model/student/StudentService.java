@@ -1,5 +1,6 @@
 package com.parcom.classroom.model.student;
 
+import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupService;
 import com.parcom.classroom.model.user.User;
 import com.parcom.security_client.UserUtils;
@@ -27,6 +28,10 @@ public class StudentService {
 
     public Student getByOrNull(@NotNull Long idStudent) {
         return studentRepository.findById(idStudent).orElse(null);
+    }
+
+    Student getCurrentStudent() {
+        return getById(UserUtils.getIdStudent());
     }
 
 
@@ -79,10 +84,10 @@ public class StudentService {
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     void delete(Long id)
     {
-
         studentToUserRepository.deleteAllByStudent(getById(id));
         studentRepository.deleteById(id);
     }
+
 
 
 }
