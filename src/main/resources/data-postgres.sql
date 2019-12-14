@@ -1,14 +1,11 @@
 INSERT INTO public.users (id, email, family_name, first_name, middle_name, phone)
 VALUES (1, 'admin@mail.com', 'Волан-де-Морт', 'Лорд', null, '79151111111');
---eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBtYWlsLmNvbSIsInVzZXIiOiJhZG1pbkBtYWlsLmNvbSIsImlkVXNlciI6MSwiaWRHcm91cCI6MjEsImlkU3R1ZGVudCI6MzEsImF1dGhvcml0aWVzIjoiUk9MRV9BRE1JTiIsImlhdCI6MTU3NjMxOTk2NywiZXhwIjoxNTc2MzQxODY0fQ.r0imdwCf5ZNKUNUYrAbOHQtSINjLbw7wB7FaTgVsdWejXOJ9MdS7GFj6k9K_NQREGmfxZXI6P7oVo2U4--DKUg
 
 INSERT INTO public.users (id, email, family_name, first_name, middle_name, phone)
 VALUES (2, 'molly@weasley.com', 'Уизли', 'Молли', null, '79032222222');
--- eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2xseUB3ZWFzbGV5LmNvbSIsInVzZXIiOiJtb2xseUB3ZWFzbGV5LmNvbSIsImlkVXNlciI6MiwiaWRHcm91cCI6MjEsImlkU3R1ZGVudCI6MzIsImF1dGhvcml0aWVzIjoiUk9MRV9NRU1CRVIiLCJpYXQiOjE1NzYzMjAwMTksImV4cCI6MTU3NjM0MTkxOX0.y7bXuH2GZB1lTOyatotSWjlo7Bxx_0-WHre9mVY5RM61yr7mEaNOO6NOTaBuZPVngX8U8ncHxQ1S4HjXyJU0ow
 
 INSERT INTO public.users (id, email, family_name, first_name, middle_name, phone)
 VALUES (3, 'artur@weasley.com', 'Уизли', 'Артур', 'Септимус', '79263333333');
--- eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ckB3ZWFzbGV5LmNvbSIsInVzZXIiOiJhcnR1ckB3ZWFzbGV5LmNvbSIsImlkVXNlciI6MywiaWRHcm91cCI6MjEsImlkU3R1ZGVudCI6MzIsImF1dGhvcml0aWVzIjoiUk9MRV9QQVJFTlQiLCJpYXQiOjE1NzYzMjAwNTAsImV4cCI6MTU3NjM0MTk1MH0.GKJCZWUNdE1ysRCgsVIN5uNcPpCVANQ9IKtNIUXZ6eZ5H-H8iLTJ_0GvMtNjrdItFXSTyH4zz8FTsUBbO87HVA
 
 
 INSERT INTO public.school (id, name)
