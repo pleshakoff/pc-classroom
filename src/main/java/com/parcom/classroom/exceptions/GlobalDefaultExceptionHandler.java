@@ -41,7 +41,7 @@ public class GlobalDefaultExceptionHandler {
         return result;
     }
 
-    @ExceptionHandler(value = Exception.class)
+   // @ExceptionHandler(value = Exception.class)
     public ExceptionResource handleAllException(HttpServletRequest request, Exception ex, HttpServletResponse response) {
         ExceptionResource result = getExceptionResource(request, ex, getMessageForRootException(ex));
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
