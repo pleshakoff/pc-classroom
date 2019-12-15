@@ -7,13 +7,11 @@ import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentToUser;
 import com.parcom.classroom.model.student.StudentToUserRepository;
 import com.parcom.rest_template.RestTemplateUtils;
+import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +23,8 @@ import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+
+import static com.parcom.rest_template.RestTemplateUtils.getHttpHeaders;
 
 @Service
 @RequiredArgsConstructor
@@ -108,8 +108,9 @@ public class UserService {
               .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/").path(id.toString()).build().toUri();
 
 
-       restTemplate.exchange(url, HttpMethod.DELETE, RestTemplateUtils.getHttpEntity(), String.class);
-
+        HttpHeaders httpHeaders = getHttpHeaders();
+        httpHeaders.set(Checksum.CHECKSUM,Checksum.createChecksum(id));
+        restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity(httpHeaders), String.class);
 
     }
 
@@ -117,7 +118,10 @@ public class UserService {
     public void registerInSecurity(UserCreateDto userCreateDto){
        URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/register").build().toUri();
 
-        HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, RestTemplateUtils.getHttpHeaders());
+        HttpHeaders httpHeaders = getHttpHeaders();
+        httpHeaders.set(Checksum.CHECKSUM,Checksum.createChecksum(userCreateDto.getId()));
+
+        HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, httpHeaders);
         ResponseEntity<userSecurityResponseDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityResponseDto.class);
         if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
             userResponseEntity.getBody();

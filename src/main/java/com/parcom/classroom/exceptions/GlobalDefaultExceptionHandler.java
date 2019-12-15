@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import static java.util.Optional.ofNullable;
 
 
-@ControllerAdvice
+//@ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalDefaultExceptionHandler {
 

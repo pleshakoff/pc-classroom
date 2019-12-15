@@ -69,3 +69,6 @@ VALUES (55, 22, 3);
 
 
 SELECT setval('hibernate_sequence', 100, true);
+
+
+
