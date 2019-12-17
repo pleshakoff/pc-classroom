@@ -1,13 +1,17 @@
 package com.parcom.classroom.model.group;
 
+import com.parcom.classroom.exceptions.NotFoundParcomException;
+import com.parcom.i18n.LocalizationUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -18,12 +22,13 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+    private  final MessageSource messageSource;
+
 
 
     @GetMapping
     @ApiOperation(value = "Get current group")
     public Group getCurrentGroup()  {
-
        return groupService.getCurrentGroup();
     }
 
