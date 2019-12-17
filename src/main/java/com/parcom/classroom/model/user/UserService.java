@@ -9,6 +9,7 @@ import com.parcom.classroom.model.student.StudentToUserRepository;
 import com.parcom.exceptions.ForbiddenParcomException;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.exceptions.ParcomException;
+import com.parcom.exceptions.RPCParcomException;
 import com.parcom.rest_template.RestTemplateUtils;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
@@ -130,7 +131,7 @@ public class UserService {
         }
         else
         {
-            throw new RuntimeException(Objects.requireNonNull(userResponseEntity.getBody()).toString());
+            throw new RPCParcomException();
         }
 
     }
