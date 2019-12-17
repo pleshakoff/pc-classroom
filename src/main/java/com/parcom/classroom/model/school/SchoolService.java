@@ -1,11 +1,9 @@
 package com.parcom.classroom.model.school;
 
 
-import com.parcom.classroom.exceptions.NotFoundParcomException;
+import com.parcom.exceptions.NotFoundParcomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor

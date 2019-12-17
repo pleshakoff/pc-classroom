@@ -1,13 +1,15 @@
 package com.parcom.classroom.services.add;
 
-import com.parcom.classroom.exceptions.ParcomException;
 import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupService;
 import com.parcom.classroom.model.school.School;
 import com.parcom.classroom.model.school.SchoolService;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentService;
-import com.parcom.classroom.model.user.*;
+import com.parcom.classroom.model.user.User;
+import com.parcom.classroom.model.user.UserCreateDto;
+import com.parcom.classroom.model.user.UserService;
+import com.parcom.exceptions.ParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -85,7 +87,7 @@ public class AddService {
     public User registerNewGroup(AddGroupDto addDto) {
 
           if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
-            throw new  ParcomException("school.can_not_be_null");
+            throw new ParcomException("school.can_not_be_null");
 
         School school = schoolService.getOrCreate(addDto.getIdSchool(),addDto.getNameSchool());
         Group group = groupService.create(addDto.getNameGroup(),school);

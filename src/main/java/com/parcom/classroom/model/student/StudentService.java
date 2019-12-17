@@ -1,13 +1,12 @@
 package com.parcom.classroom.model.student;
 
-import com.parcom.classroom.exceptions.NotFoundParcomException;
 import com.parcom.classroom.model.group.GroupService;
+import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

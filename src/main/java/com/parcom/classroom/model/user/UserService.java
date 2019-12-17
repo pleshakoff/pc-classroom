@@ -1,20 +1,19 @@
 package com.parcom.classroom.model.user;
 
-import com.parcom.classroom.exceptions.ForbiddenParcomException;
-import com.parcom.classroom.exceptions.NotFoundParcomException;
 import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupToUser;
 import com.parcom.classroom.model.group.GroupToUserRepository;
 import com.parcom.classroom.model.student.Student;
 import com.parcom.classroom.model.student.StudentToUser;
 import com.parcom.classroom.model.student.StudentToUserRepository;
+import com.parcom.exceptions.ForbiddenParcomException;
+import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.rest_template.RestTemplateUtils;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -85,7 +84,7 @@ public class UserService {
     User update(Long id, UserUpdateDto userUpdateDto)
     {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
-           throw new ForbiddenParcomException("forbidden");
+           throw new ForbiddenParcomException();
         User user = getById(id);
         user.setPhone(userUpdateDto.getPhone());
         user.setFirstName(userUpdateDto.getFirstName());
@@ -99,7 +98,7 @@ public class UserService {
     public void delete(Long id){
 
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
-            throw new ForbiddenParcomException("forbidden");
+            throw new ForbiddenParcomException();
 
         User user = getById(id);
         groupToUserRepository.deleteAllByUser(user);
