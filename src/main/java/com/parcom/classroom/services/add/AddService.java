@@ -38,7 +38,7 @@ public class AddService {
         userService.addUserToGroup(group,user);
 
         if (addDto.getIdStudent() != null) {
-            Student student = studentService.getByOrNull(addDto.getIdStudent());
+            Student student = studentService.getById(addDto.getIdStudent());
             if (student != null) {
                 userService.addUserToStudent(student, user);
             }

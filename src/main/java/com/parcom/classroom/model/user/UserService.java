@@ -8,6 +8,7 @@ import com.parcom.classroom.model.student.StudentToUser;
 import com.parcom.classroom.model.student.StudentToUserRepository;
 import com.parcom.exceptions.ForbiddenParcomException;
 import com.parcom.exceptions.NotFoundParcomException;
+import com.parcom.exceptions.ParcomException;
 import com.parcom.rest_template.RestTemplateUtils;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
@@ -49,7 +50,7 @@ public class UserService {
     public User create(String email){
         if (userRepository.findUserByEmail(email) != null) {
 
-            throw  new RuntimeException("user.duplicate_email");
+            throw  new ParcomException("user.duplicate_email");
 
         }
 
