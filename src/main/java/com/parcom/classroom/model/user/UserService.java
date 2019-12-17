@@ -1,5 +1,7 @@
 package com.parcom.classroom.model.user;
 
+import com.parcom.classroom.exceptions.ForbiddenParcomException;
+import com.parcom.classroom.exceptions.NotFoundParcomException;
 import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupToUser;
 import com.parcom.classroom.model.group.GroupToUserRepository;
@@ -30,7 +32,7 @@ import static com.parcom.rest_template.RestTemplateUtils.getHttpHeaders;
 @RequiredArgsConstructor
 public class UserService {
 
-    private static final String USER_NOT_FOUND = "User not found";
+    private static final String USER_NOT_FOUND = "user.not_found";
     public static final String USERS_URL = "users";
 
     private final UserRepository userRepository;
@@ -48,7 +50,7 @@ public class UserService {
     public User create(String email){
         if (userRepository.findUserByEmail(email) != null) {
 
-            throw  new RuntimeException("Email уже существует");
+            throw  new RuntimeException("user.duplicate_email");
 
         }
 
@@ -56,7 +58,7 @@ public class UserService {
     }
 
     User current(){
-        return userRepository.findById(UserUtils.getIdUser()).orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
+        return userRepository.findById(UserUtils.getIdUser()).orElseThrow(()->new NotFoundParcomException(USER_NOT_FOUND) );
     }
 
     public void addUserToGroup(@NotNull Group group,@NotNull User user) {
@@ -71,7 +73,7 @@ public class UserService {
     User getById(@NotNull Long id) {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
             throw new EntityNotFoundException(USER_NOT_FOUND);
-        return allInGroup().stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND) );
+        return allInGroup().stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(()->new NotFoundParcomException(USER_NOT_FOUND) );
     }
 
     List<User> allInGroup(){
@@ -83,7 +85,7 @@ public class UserService {
     User update(Long id, UserUpdateDto userUpdateDto)
     {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
-           throw new AccessDeniedException("User update forbidden");
+           throw new ForbiddenParcomException("forbidden");
         User user = getById(id);
         user.setPhone(userUpdateDto.getPhone());
         user.setFirstName(userUpdateDto.getFirstName());
@@ -97,7 +99,7 @@ public class UserService {
     public void delete(Long id){
 
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
-            throw new AccessDeniedException("User update forbidden");
+            throw new ForbiddenParcomException("forbidden");
 
         User user = getById(id);
         groupToUserRepository.deleteAllByUser(user);

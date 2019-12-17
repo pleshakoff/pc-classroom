@@ -29,7 +29,7 @@ public class GroupController {
     @GetMapping
     @ApiOperation(value = "Get current group")
     public Group getCurrentGroup()  {
-       return groupService.getCurrentGroup();
+      return groupService.getCurrentGroup();
     }
 
     @GetMapping("/my")

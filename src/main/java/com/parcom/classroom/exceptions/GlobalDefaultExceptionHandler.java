@@ -78,17 +78,30 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
     };
 
     @ExceptionHandler(value = NotFoundParcomException.class)
-    public ResponseEntity<ExceptionResource> handleNotFound(HttpServletRequest request, NotFoundParcomException ex) {
+    public ResponseEntity<ExceptionResource> NotFoundParcomException(HttpServletRequest request, NotFoundParcomException ex) {
              return new ResponseEntity<>(getExceptionResourceLocalized(request, ex),HttpStatus.NOT_FOUND);
     }
 
+
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public ResponseEntity<ExceptionResource> handleAccessDeniedException(HttpServletRequest request, ParcomException ex) {
+        return new ResponseEntity<>(getExceptionResourceLocalized(request, ex),HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @ExceptionHandler(value = {ForbiddenParcomException.class})
+    public ResponseEntity<ExceptionResource> handleForbiddenParcomException(HttpServletRequest request, ParcomException ex) {
+        return new ResponseEntity<>(getExceptionResourceLocalized(request, ex),HttpStatus.FORBIDDEN);
+    }
+
+
     @ExceptionHandler(value = ParcomException.class)
-    public ResponseEntity<ExceptionResource> handleAllParcom(HttpServletRequest request, ParcomException ex) {
+    public ResponseEntity<ExceptionResource> handleParcomException(HttpServletRequest request, ParcomException ex) {
         return new ResponseEntity<>(getExceptionResourceLocalized(request, ex),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ExceptionResource> handleAll(HttpServletRequest request, Exception ex) {
+    public ResponseEntity<ExceptionResource> handleException(HttpServletRequest request, Exception ex) {
         return new ResponseEntity<>(getExceptionResource(request, ex),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

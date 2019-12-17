@@ -1,5 +1,6 @@
 package com.parcom.classroom.services.add;
 
+import com.parcom.classroom.exceptions.ParcomException;
 import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupService;
 import com.parcom.classroom.model.school.School;
@@ -27,7 +28,7 @@ public class AddService {
     public User registerByGroup(AddMemberDto addDto) {
 
         if (addDto.getIdGroup() == null) {
-            throw new RuntimeException("Empty group");
+            throw new ParcomException("group.can_not_be_null");
         }
 
         Group group = groupService.getById(addDto.getIdGroup());
@@ -60,7 +61,7 @@ public class AddService {
     public User registerByStudent(AddParentDto addDto) {
 
         if (addDto.getIdStudent() == null) {
-            throw new RuntimeException("Empty student");
+            throw new ParcomException("student.can_not_be_null");
         }
         Student student = studentService.getById(addDto.getIdStudent());
         User user = userService.create(addDto.email);
@@ -84,7 +85,7 @@ public class AddService {
     public User registerNewGroup(AddGroupDto addDto) {
 
           if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
-            throw new  RuntimeException("Необходимо выбрать школу или ввести наименование");
+            throw new  ParcomException("school.can_not_be_null");
 
         School school = schoolService.getOrCreate(addDto.getIdSchool(),addDto.getNameSchool());
         Group group = groupService.create(addDto.getNameGroup(),school);

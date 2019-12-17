@@ -19,7 +19,6 @@ public class ExceptionResource {
     private String message;
     private String exceptionClass;
     private String description;
-    private String service;
 
     public String toJson() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();

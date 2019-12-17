@@ -1,5 +1,6 @@
 package com.parcom.classroom.model.student;
 
+import com.parcom.classroom.exceptions.NotFoundParcomException;
 import com.parcom.classroom.model.group.GroupService;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentService {
 
-    public static final String STUDENT_NOT_FOUND = "Student not found";
+    public static final String STUDENT_NOT_FOUND = "student.not_found";
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
     private final GroupService groupService;
 
 
     public Student getById(@NotNull Long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(() -> new EntityNotFoundException(STUDENT_NOT_FOUND));
+        return studentRepository.findById(idStudent).orElseThrow(() -> new NotFoundParcomException(STUDENT_NOT_FOUND));
     }
 
     public Student getByOrNull(@NotNull Long idStudent) {
@@ -44,7 +45,7 @@ public class StudentService {
             return getMyStudents().
                     stream().
                     filter(student -> student.getId().equals(id)).
-                    findFirst().orElseThrow(() -> new EntityNotFoundException(STUDENT_NOT_FOUND));
+                    findFirst().orElseThrow(() -> new NotFoundParcomException(STUDENT_NOT_FOUND));
         }
         else
            return  getById(id);
