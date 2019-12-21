@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupController {
 
-    private final GroupService groupService;
+    private final GroupServiceImpl groupService;
     private  final MessageSource messageSource;
 
 

@@ -1,6 +1,5 @@
 package com.parcom.classroom.model.student;
 
-import com.parcom.classroom.model.group.Group;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
