@@ -29,8 +29,8 @@ public class StudentController {
 
     @GetMapping("/my")
     @ApiOperation(value = "Get my students")
-    public List<Student> getMyStudents()  {
-       return studentService.getMyStudents();
+    public List<Student> getMyStudents(@RequestParam(required = false) Long idGroup)  {
+       return studentService.getMyStudents(idGroup);
     }
 
     @GetMapping("/all")
@@ -42,7 +42,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get student by ID")
-    public Student getMyStudent(@PathVariable Long id)  {
+    public Student getStudent(@PathVariable Long id)  {
         return studentService.getMyStudent(id);
     }
 

@@ -13,7 +13,7 @@ public interface StudentService {
 
     Student getMyStudent(Long id);
 
-    List<Student> getMyStudents();
+    List<Student> getMyStudents(Long idGroup);
 
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     List<Student> getStudents();

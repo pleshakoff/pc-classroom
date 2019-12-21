@@ -29,7 +29,7 @@ INSERT INTO public.student (id, birth_day, family_name, first_name, middle_name,
 VALUES (33, '1979-09-19', 'Грейнджер', 'Гермиона', null, 21);
 
 INSERT INTO public.student (id, birth_day, family_name, first_name, middle_name, id_group)
-VALUES (34, '2013-05-12', 'Уизли', 'Джинни', null, 22);
+VALUES (34, '2013-05-12', 'Уизли', 'Джинни', 'Артуровна', 22);
 
 
 INSERT INTO public.student_to_user (id, id_student, id_user)

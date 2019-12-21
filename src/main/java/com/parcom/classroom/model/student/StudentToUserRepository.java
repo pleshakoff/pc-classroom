@@ -14,9 +14,14 @@ public interface StudentToUserRepository extends CrudRepository<StudentToUser, L
             "order by su.student.familyName" )
     List<Student> getMyStudents(@Param("idUser") Long idUser);
 
+    @Query("select su.student from StudentToUser su " +
+            "where su.user.id =  :idUser " +
+            " and su.student.group.id = :idGroup " +
+            "order by su.student.familyName" )
+    List<Student> getMyStudentsInGroup(@Param("idUser") Long idUser, @Param("idGroup") Long idGroup);
+
     void deleteAllByUser(User user);
+
     void deleteAllByStudent(Student student);
-
-
 
 }

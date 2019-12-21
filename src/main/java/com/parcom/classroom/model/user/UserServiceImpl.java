@@ -9,25 +9,20 @@ import com.parcom.classroom.model.student.StudentToUserRepository;
 import com.parcom.exceptions.ForbiddenParcomException;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.exceptions.ParcomException;
-import com.parcom.exceptions.RPCParcomException;
-import com.parcom.rest_template.RestTemplateAdapter;
-import com.parcom.rest_template.RestTemplateUtils;
+import com.parcom.network.Network;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.parcom.rest_template.RestTemplateUtils.getHttpHeaders;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +33,7 @@ class UserServiceImpl implements UserService {
     public static final String SERVICE_NAME_SECURITY = "security";
 
     private final UserRepository userRepository;
-    private  final RestTemplateAdapter restTemplateAdapter;
+    private  final Network network;
     private  final GroupToUserRepository groupToUserRepository;
     private  final StudentToUserRepository studentToUserRepository;
 
@@ -110,7 +105,9 @@ class UserServiceImpl implements UserService {
         studentToUserRepository.deleteAllByUser(user);
         userRepository.deleteById(id);
 
-        restTemplateAdapter.exchange(SERVICE_NAME_SECURITY,HttpMethod.DELETE,null,String.class,null,USERS_URL,id.toString());
+        Map<String,String> additionalHeaders = new HashMap<>();
+        additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(id));
+        network.callDelete(SERVICE_NAME_SECURITY,additionalHeaders,USERS_URL,id.toString());
     }
 
 
@@ -119,13 +116,12 @@ class UserServiceImpl implements UserService {
 
         Map<String,String> additionalHeaders = new HashMap<>();
         additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(userCreateDto.getId()));
-        restTemplateAdapter.exchange(SERVICE_NAME_SECURITY,
-                                     HttpMethod.POST,
-                                     userCreateDto,
-                                     userSecurityResponseDto.class,
-                                     additionalHeaders,
-                                     USERS_URL,
-                                     "/register");
+        network.callPost(SERVICE_NAME_SECURITY,
+                         userSecurityResponseDto.class,
+                         userCreateDto,
+                         additionalHeaders,
+                         USERS_URL,
+                         "register");
    }
 
 

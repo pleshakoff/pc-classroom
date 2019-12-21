@@ -4,7 +4,6 @@ import com.parcom.classroom.model.group.GroupService;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -35,14 +34,18 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<Student> getMyStudents() {
-        return studentToUserRepository.getMyStudents(UserUtils.getIdUser());
+    public List<Student> getMyStudents(Long idGroup) {
+        if (idGroup == null) {
+            return studentToUserRepository.getMyStudents(UserUtils.getIdUser());
+        }
+        else
+            return studentToUserRepository.getMyStudentsInGroup(UserUtils.getIdUser(),idGroup);
     }
 
     @Override
     public Student getMyStudent(Long id) {
         if (UserUtils.getRole().equals(UserUtils.ROLE_PARENT)) {
-            return getMyStudents().
+            return getMyStudents(null).
                     stream().
                     filter(student -> student.getId().equals(id)).
                     findFirst().orElseThrow(() -> new NotFoundParcomException(STUDENT_NOT_FOUND));
