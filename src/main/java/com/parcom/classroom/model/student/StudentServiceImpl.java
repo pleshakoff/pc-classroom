@@ -53,13 +53,11 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     public List<Student> getStudents() {
         return studentRepository.getStudents(UserUtils.getIdGroup());
     }
 
     @Override
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     public Student create(StudentDto studentDTO){
         return studentRepository.save(
                 Student.builder().firstName(studentDTO.getFirstName()).
@@ -72,7 +70,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     public Student update(Long id, StudentDto studentDTO)
     {
         Student student = getById(id);
@@ -86,7 +83,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     public void delete(Long id)
     {
         studentToUserRepository.deleteAllByStudent(getById(id));

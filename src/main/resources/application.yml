@@ -1,15 +1,21 @@
+
+
 server:
   servlet:
      context-path: /api/v1
 
 parcom:
+  api:
+    version:
   services:
     security:
       host: pc-security
       port: 8081
+      version: v1
     notification:
       host: pc-notifier
       port: 8083
+      version: v1
 
 spring:
   application.name: pc-classroom

@@ -6,13 +6,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface StudentService {
-    abstract Student getById(@NotNull Long idStudent);
 
-       Student getCurrentStudent();
+    Student getById(@NotNull Long idStudent);
 
-    List<Student> getMyStudents();
+    Student getCurrentStudent();
 
     Student getMyStudent(Long id);
+
+    List<Student> getMyStudents();
 
     @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
     List<Student> getStudents();
