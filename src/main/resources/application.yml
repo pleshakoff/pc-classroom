@@ -2,19 +2,16 @@
 
 server:
   servlet:
-     context-path: /api/v1
+     context-path: /api/${parcom.api.version}
 
 parcom:
   api:
-    version:
+    version: v1
   services:
-    security:
+    -
+      name: securirty
       host: pc-security
       port: 8081
-      version: v1
-    notification:
-      host: pc-notifier
-      port: 8083
       version: v1
 
 spring:

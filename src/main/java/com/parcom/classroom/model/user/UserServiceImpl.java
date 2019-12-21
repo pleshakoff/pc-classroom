@@ -10,21 +10,22 @@ import com.parcom.exceptions.ForbiddenParcomException;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.exceptions.ParcomException;
 import com.parcom.exceptions.RPCParcomException;
+import com.parcom.rest_template.RestTemplateAdapter;
 import com.parcom.rest_template.RestTemplateUtils;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.parcom.rest_template.RestTemplateUtils.getHttpHeaders;
 
@@ -34,17 +35,12 @@ class UserServiceImpl implements UserService {
 
     private static final String USER_NOT_FOUND = "user.not_found";
     private static final String USERS_URL = "users";
+    public static final String SERVICE_NAME_SECURITY = "security";
 
     private final UserRepository userRepository;
-    private  final RestTemplate restTemplate;
+    private  final RestTemplateAdapter restTemplateAdapter;
     private  final GroupToUserRepository groupToUserRepository;
     private  final StudentToUserRepository studentToUserRepository;
-
-    @Value("${parcom.services.security.host}")
-    private String securityHost;
-
-    @Value("${parcom.services.security.port}")
-    private String securityPort;
 
 
     @Override
@@ -114,35 +110,23 @@ class UserServiceImpl implements UserService {
         studentToUserRepository.deleteAllByUser(user);
         userRepository.deleteById(id);
 
-        URI url = UriComponentsBuilder.newInstance()
-              .scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/").path(id.toString()).build().toUri();
-
-
-        HttpHeaders httpHeaders = getHttpHeaders();
-        httpHeaders.set(Checksum.CHECKSUM,Checksum.createChecksum(id));
-        restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity(httpHeaders), String.class);
-
+        restTemplateAdapter.exchange(SERVICE_NAME_SECURITY,HttpMethod.DELETE,null,String.class,null,USERS_URL,id.toString());
     }
 
 
     @Override
     public void registerInSecurity(UserCreateDto userCreateDto){
-       URI http = UriComponentsBuilder.newInstance().scheme(RestTemplateUtils.scheme).host(securityHost).port(securityPort).path("/" + USERS_URL + "/register").build().toUri();
 
-        HttpHeaders httpHeaders = getHttpHeaders();
-        httpHeaders.set(Checksum.CHECKSUM,Checksum.createChecksum(userCreateDto.getId()));
-
-        HttpEntity<UserCreateDto> requestBody = new HttpEntity<>(userCreateDto, httpHeaders);
-        ResponseEntity<userSecurityResponseDto> userResponseEntity = restTemplate.postForEntity(http, requestBody, userSecurityResponseDto.class);
-        if (userResponseEntity.getStatusCode()== HttpStatus.OK) {
-            userResponseEntity.getBody();
-        }
-        else
-        {
-            throw new RPCParcomException();
-        }
-
-    }
+        Map<String,String> additionalHeaders = new HashMap<>();
+        additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(userCreateDto.getId()));
+        restTemplateAdapter.exchange(SERVICE_NAME_SECURITY,
+                                     HttpMethod.POST,
+                                     userCreateDto,
+                                     userSecurityResponseDto.class,
+                                     additionalHeaders,
+                                     USERS_URL,
+                                     "/register");
+   }
 
 
 
