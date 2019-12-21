@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     User create(String email);
 
-    abstract User current();
+    User current();
 
     void addUserToGroup(@NotNull Group group, @NotNull User user);
 
