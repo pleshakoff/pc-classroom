@@ -12,10 +12,12 @@ import com.parcom.classroom.model.user.UserService;
 import com.parcom.exceptions.ParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 class AddServiceImpl implements AddService {
@@ -39,6 +41,7 @@ class AddServiceImpl implements AddService {
         userService.addUserToGroup(group,user);
 
         if (addDto.getIdStudent() != null) {
+
             Student student = studentService.getById(addDto.getIdStudent());
             if (student != null) {
                 userService.addUserToStudent(student, user);

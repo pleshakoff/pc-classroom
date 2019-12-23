@@ -13,6 +13,7 @@ import com.parcom.network.Network;
 import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 class UserServiceImpl implements UserService {
 
     private static final String USER_NOT_FOUND = "user.not_found";
     private static final String USERS_URL = "users";
-    public static final String SERVICE_NAME_SECURITY = "security";
+    private static final String SERVICE_NAME_SECURITY = "security";
 
     private final UserRepository userRepository;
     private  final Network network;
@@ -41,11 +43,9 @@ class UserServiceImpl implements UserService {
     @Override
     public User create(String email){
         if (userRepository.findUserByEmail(email) != null) {
-
             throw  new ParcomException("user.duplicate_email");
-
         }
-
+        log.info("Create user {}", email) ;
         return userRepository.save( User.builder().email(email).build());
     }
 
@@ -56,11 +56,13 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void addUserToGroup(@NotNull Group group, @NotNull User user) {
+        log.info("Add user {} to group {}", user.getEmail(),group.getName()) ;
         groupToUserRepository.save(GroupToUser.builder().group(group).user(user).build());
     }
 
     @Override
     public void addUserToStudent(@NotNull Student student, @NotNull User user) {
+        log.info("Add user {} to student {} {} ", user.getEmail(),student.getFirstName(),student.getFamilyName()) ;
         studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
     }
 
@@ -82,6 +84,7 @@ class UserServiceImpl implements UserService {
     @Transactional
     public User update(Long id, UserUpdateDto userUpdateDto)
     {
+        log.info("Update user {}", id) ;
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
            throw new ForbiddenParcomException();
         User user = getById(id);
@@ -97,6 +100,8 @@ class UserServiceImpl implements UserService {
     @Transactional
     public void delete(Long id){
 
+        log.info("Delete user {}", id) ;
+
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
             throw new ForbiddenParcomException();
 
@@ -107,13 +112,14 @@ class UserServiceImpl implements UserService {
 
         Map<String,String> additionalHeaders = new HashMap<>();
         additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(id));
+        log.info("Delete user account {}", id) ;
         network.callDelete(SERVICE_NAME_SECURITY,additionalHeaders,USERS_URL,id.toString());
     }
 
 
     @Override
     public void registerInSecurity(UserCreateDto userCreateDto){
-
+        log.info("Register user account {}", userCreateDto.getEmail()) ;
         Map<String,String> additionalHeaders = new HashMap<>();
         additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(userCreateDto.getId()));
         network.callPost(SERVICE_NAME_SECURITY,

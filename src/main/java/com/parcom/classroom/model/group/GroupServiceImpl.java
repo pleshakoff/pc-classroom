@@ -4,6 +4,7 @@ import com.parcom.classroom.model.school.School;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 class GroupServiceImpl implements GroupService {
 
     private static final String GROUP_NOT_FOUND = "group.not_found";
@@ -34,6 +36,7 @@ class GroupServiceImpl implements GroupService {
 
     @Override
     public Group create(String name, School school) {
+        log.info("Group creation");
         return groupRepository.save(Group.builder().name(name).
                                                     school(school).build());
     }
