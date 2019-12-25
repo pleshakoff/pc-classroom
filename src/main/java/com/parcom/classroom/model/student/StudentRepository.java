@@ -12,6 +12,6 @@ interface StudentRepository extends CrudRepository<Student, Long> {
             "where student.group.id =  :idGroup " +
             "order by student.familyName" )
 
-    List<Student> getStudents(@Param("idGroup") Long idGroup);
+    List<Student> getStudentsByGroup(@Param("idGroup") Long idGroup);
 
 }

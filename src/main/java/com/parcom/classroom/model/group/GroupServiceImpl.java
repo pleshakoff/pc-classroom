@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+public
 class GroupServiceImpl implements GroupService {
 
     private static final String GROUP_NOT_FOUND = "group.not_found";

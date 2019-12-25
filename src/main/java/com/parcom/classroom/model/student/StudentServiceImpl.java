@@ -4,6 +4,7 @@ import com.parcom.classroom.model.group.GroupService;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -57,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getStudents() {
-        return studentRepository.getStudents(UserUtils.getIdGroup());
+        return studentRepository.getStudentsByGroup(UserUtils.getIdGroup());
     }
 
     @Override
