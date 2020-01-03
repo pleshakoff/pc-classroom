@@ -17,31 +17,10 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @EnableAsync
-@EnableSwagger2
 public class ClassroomApplication {
 
-
-//	docker run --name classroom_pg -e POSTGRES_PASSWORD=parcom -d -p 5432:5432 postgres:11
-//  docker image build -t pleshakoff/pc-classroom:hw1 .
-//  docker image push pleshakoff/pc-classroom:hw1
 	public static void main(String[] args) {
 		SpringApplication.run(ClassroomApplication.class, args);
-	}
-
-	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).globalOperationParameters(
-				Arrays.asList(new ParameterBuilder()
-						.name("X-Auth-Token")
-						.description("userSecurityResponseDto session token")
-						.modelRef(new ModelRef("string"))
-						.parameterType("header")
-						.required(false)
-						.build()))
-				.select()
-				.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-				.paths(PathSelectors.any())
-		    	.build();
 	}
 
 
