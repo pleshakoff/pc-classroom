@@ -14,7 +14,6 @@ import com.parcom.security_client.Checksum;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,7 +33,7 @@ class UserServiceImpl implements UserService {
     private static final String USERS_URL = "users";
     private static final String SERVICE_NAME_SECURITY = "security";
 
-    private final UserRepository userRepository;
+    private  final UserRepository userRepository;
     private  final Network network;
     private  final GroupToUserRepository groupToUserRepository;
     private  final StudentToUserRepository studentToUserRepository;
@@ -56,12 +55,29 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void addUserToGroup(@NotNull Group group, @NotNull User user) {
-        log.info("Add user {} to group {}", user.getEmail(),group.getName()) ;
+        if (group == null) {
+            throw new ParcomException("group.can_not_be_null");
+        }
+
+        if (user == null) {
+            throw new ParcomException("user.can_not_be_null");
+        }
+
+        log.info("Add user {} to group {}", user.getEmail(),group.getName());
         groupToUserRepository.save(GroupToUser.builder().group(group).user(user).build());
     }
 
     @Override
     public void addUserToStudent(@NotNull Student student, @NotNull User user) {
+        if (student == null)
+        {
+            throw new ParcomException("student.can_not_be_null");
+        }
+
+        if (user == null) {
+            throw new ParcomException("user.can_not_be_null");
+        }
+
         log.info("Add user {} to student {} {} ", user.getEmail(),student.getFirstName(),student.getFamilyName()) ;
         studentToUserRepository.save(StudentToUser.builder().student(student).user(user).build());
     }
@@ -70,7 +86,7 @@ class UserServiceImpl implements UserService {
     @Override
     public User getById(@NotNull Long id) {
         if ((UserUtils.getRole().equals(UserUtils.ROLE_PARENT))&&!UserUtils.getIdUser().equals(id))
-            throw new EntityNotFoundException(USER_NOT_FOUND);
+            throw new NotFoundParcomException(USER_NOT_FOUND);
         return allInGroup().stream().filter(user -> user.getId().equals(id)).findFirst().orElseThrow(()->new NotFoundParcomException(USER_NOT_FOUND) );
     }
 

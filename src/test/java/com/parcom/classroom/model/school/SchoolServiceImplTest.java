@@ -15,13 +15,13 @@ import java.util.Optional;
 import static java.util.Optional.*;
 
 
-@SpringBootTest(classes = {SchoolServiceImplTestConfiguration.class,
-        SpringSecurityTestConfiguration.class})
+@SpringBootTest(classes = {SchoolServiceImplTestConfiguration.class})
 class SchoolServiceImplTest {
 
 
     private static final long ID_SCHOOL = 1L;
     private static final String NAME = "school";
+
     @Autowired
     SchoolService schoolService;
 

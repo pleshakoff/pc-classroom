@@ -15,6 +15,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.Arrays;
 
+import static com.parcom.classroom.SpringSecurityTestConfiguration.ID_USER_ADMIN;
 import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,6 @@ class GroupServiceImplTest {
 
 
     private static final long ID_GROUP_ONE = 1L;
-    private static final long ID_USER_ADMIN = 1L;
     private static final Long ID_GROUP_TWO = 2L;
 
 
@@ -39,9 +39,6 @@ class GroupServiceImplTest {
 
     @MockBean
     GroupToUserRepository groupToUserRepository;
-
-
-
 
     @Test
     @WithUserDetails("admin@parcom.com")
@@ -58,6 +55,14 @@ class GroupServiceImplTest {
             groupService.getCurrentGroup();
         });
     }
+
+    @Test
+    void getCurrentGroupAccessDenied() {
+        assertThrows(NotFoundParcomException.class, () -> {
+            groupService.getCurrentGroup();
+        });
+    }
+
 
     @Test
     @WithUserDetails("admin@parcom.com")

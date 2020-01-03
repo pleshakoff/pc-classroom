@@ -2,6 +2,7 @@ package com.parcom.classroom.services.add;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;

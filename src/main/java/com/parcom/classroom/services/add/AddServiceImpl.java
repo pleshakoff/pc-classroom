@@ -9,6 +9,7 @@ import com.parcom.classroom.model.student.StudentService;
 import com.parcom.classroom.model.user.User;
 import com.parcom.classroom.model.user.UserCreateDto;
 import com.parcom.classroom.model.user.UserService;
+import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.exceptions.ParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ class AddServiceImpl implements AddService {
     public User registerByGroup(AddMemberDto addDto) {
 
         if (addDto.getIdGroup() == null) {
-            throw new ParcomException("group.can_not_be_null");
+            throw new NotFoundParcomException("group.can_not_be_null");
         }
 
         Group group = groupService.getById(addDto.getIdGroup());
@@ -68,7 +69,7 @@ class AddServiceImpl implements AddService {
     public User registerByStudent(AddParentDto addDto) {
 
         if (addDto.getIdStudent() == null) {
-            throw new ParcomException("student.can_not_be_null");
+            throw new NotFoundParcomException("student.can_not_be_null");
         }
         Student student = studentService.getById(addDto.getIdStudent());
         User user = userService.create(addDto.email);

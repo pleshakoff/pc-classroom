@@ -19,6 +19,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import static com.parcom.classroom.SpringSecurityTestConfiguration.ID_USER_ADMIN;
 import static java.util.Optional.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +31,6 @@ public class StudentServiceImplTest {
 
     private static final long ID_STUDENT_ONE = 1L;
     private static final long ID_STUDENT_TWO = 2L;
-    private static final long ID_USER_ADMIN = 1L;
     private static final long ID_GROUP_ONE = 1L;
     private static final String FIRST_NAME = "ivan";
     private static final String MIDDLE_NAME = "ivanovich";

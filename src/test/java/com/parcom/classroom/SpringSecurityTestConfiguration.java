@@ -16,16 +16,22 @@ import java.util.List;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityTestConfiguration {
 
+    public static final long ID_USER_ADMIN = 1L;
+    public static final long ID_USER_MEMBER = 2L;
+    public static final long ID_USER_CHILDFREE = 3L;
+    public static final long ID_USER_PARENT = 4L;
+    public static final long ID_USER_FROM_ANOTHER_GROUP = 5L;
+
 
     @Bean
     @Primary
     public UserDetailsService userDetailsService() {
         List<UserDetailsPC> testUsers = Arrays.asList(
-                new UserDetailsPC("admin@parcom.com", "password",1L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_ADMIN), true,1L, 1L),
-                new UserDetailsPC("member@parcom.com", "password",2L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, 2L),
-                new UserDetailsPC("childFreeMember@parcom.com", "password",3L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, null),
-                new UserDetailsPC("parent@parcom.com", "password",4L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_PARENT), true,1L, 3L),
-                new UserDetailsPC("fromAnotherGroup@parcom.com", "password",5L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER), true,2L, 4L)
+                new UserDetailsPC("admin@parcom.com", "password",ID_USER_ADMIN, AuthorityUtils.createAuthorityList(UserUtils.ROLE_ADMIN), true,1L, 1L),
+                new UserDetailsPC("member@parcom.com", "password",ID_USER_MEMBER, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, 2L),
+                new UserDetailsPC("childFreeMember@parcom.com", "password", ID_USER_CHILDFREE, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, null),
+                new UserDetailsPC("parent@parcom.com", "password", ID_USER_PARENT, AuthorityUtils.createAuthorityList(UserUtils.ROLE_PARENT), true,1L, 3L),
+                new UserDetailsPC("fromAnotherGroup@parcom.com", "password", ID_USER_FROM_ANOTHER_GROUP, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER), true,2L, 4L)
         );
 
         return username -> testUsers.stream().filter(userDetailsPC ->  userDetailsPC.getUsername().equals(username)).
