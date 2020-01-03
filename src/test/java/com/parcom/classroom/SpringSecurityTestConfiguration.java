@@ -25,9 +25,7 @@ public class SpringSecurityTestConfiguration {
                 new UserDetailsPC("member@parcom.com", "password",2L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, 2L),
                 new UserDetailsPC("childFreeMember@parcom.com", "password",3L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER),true, 1L, null),
                 new UserDetailsPC("parent@parcom.com", "password",4L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_PARENT), true,1L, 3L),
-                new UserDetailsPC("fromAnotherGroup@parcom.com", "password",5L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_PARENT), true,2L, 4L)
-
-
+                new UserDetailsPC("fromAnotherGroup@parcom.com", "password",5L, AuthorityUtils.createAuthorityList(UserUtils.ROLE_MEMBER), true,2L, 4L)
         );
 
         return username -> testUsers.stream().filter(userDetailsPC ->  userDetailsPC.getUsername().equals(username)).

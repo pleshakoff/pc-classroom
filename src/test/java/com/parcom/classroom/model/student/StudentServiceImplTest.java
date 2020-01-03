@@ -1,6 +1,7 @@
 package com.parcom.classroom.model.student;
 
 import com.parcom.classroom.SpringSecurityTestConfiguration;
+import com.parcom.classroom.model.group.Group;
 import com.parcom.classroom.model.group.GroupServiceImpl;
 import com.parcom.exceptions.AccessDeniedParcomException;
 import com.parcom.exceptions.NotFoundParcomException;
@@ -15,13 +16,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static java.util.Optional.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(classes = {StudentServiceImplTestConfiguration.class,
-SpringSecurityTestConfiguration.class})
+        SpringSecurityTestConfiguration.class})
 public class StudentServiceImplTest {
 
 
@@ -29,38 +32,43 @@ public class StudentServiceImplTest {
     public static final long ID_STUDENT_TWO = 2L;
     public static final long ID_USER_ADMIN = 1L;
     public static final long ID_GROUP_ONE = 1L;
+    public static final String FIRST_NAME = "ivan";
+    public static final String MIDDLE_NAME = "ivanovich";
+    public static final String FAMILY_NAME = "ivanov";
     @Autowired
     StudentService studentService;
 
-    @MockBean StudentRepository studentRepository;
-    @MockBean StudentToUserRepository studentToUserRepository;
-    @MockBean GroupServiceImpl groupServiceImpl;
+    @MockBean
+    StudentRepository studentRepository;
+    @MockBean
+    StudentToUserRepository studentToUserRepository;
+    @MockBean
+    GroupServiceImpl groupServiceImpl;
 
     @BeforeEach
-    void  initMocks(){
+    void initMocks() {
 
     }
-
 
     @Test
     @WithUserDetails("admin@parcom.com")
     public void getById() {
         Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(Student.builder().id(ID_STUDENT_ONE).build()));
         Student student = studentService.getById(ID_STUDENT_ONE);
-        Assertions.assertEquals(ID_STUDENT_ONE,student.getId());
+        assertEquals(ID_STUDENT_ONE, student.getId());
     }
 
     @Test
     @WithUserDetails("childFreeMember@parcom.com")
     public void getCurrentStudentForUserWithoutStudent() {
 
-        Assertions.assertNull(studentService.getCurrentStudent());
+        assertNull(studentService.getCurrentStudent());
     }
 
     @Test
     @WithUserDetails("admin@parcom.com")
     public void getCurrentStudentNotFound() {
-        Assertions.assertThrows(NotFoundParcomException.class, () -> {
+        assertThrows(NotFoundParcomException.class, () -> {
             studentService.getCurrentStudent();
         });
 
@@ -72,21 +80,21 @@ public class StudentServiceImplTest {
     public void getMyStudents() {
 
         Mockito.when(studentToUserRepository.getMyStudents(ID_USER_ADMIN)).
-                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(),Student.builder().id(ID_STUDENT_TWO).build())
+                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(), Student.builder().id(ID_STUDENT_TWO).build())
                 );
 
-        Assertions.assertEquals(2,studentService.getMyStudents(null).size());
+        assertEquals(2, studentService.getMyStudents(null).size());
     }
 
     @Test
     @WithUserDetails("admin@parcom.com")
     public void getMyStudentsByGroup() {
 
-        Mockito.when(studentToUserRepository.getMyStudentsInGroup(ID_USER_ADMIN,ID_GROUP_ONE)).
-                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(),Student.builder().id(ID_STUDENT_TWO).build())
+        Mockito.when(studentToUserRepository.getMyStudentsInGroup(ID_USER_ADMIN, ID_GROUP_ONE)).
+                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(), Student.builder().id(ID_STUDENT_TWO).build())
                 );
 
-        Assertions.assertEquals(2,studentService.getMyStudents(ID_GROUP_ONE).size());
+        assertEquals(2, studentService.getMyStudents(ID_GROUP_ONE).size());
 
 
     }
@@ -94,9 +102,9 @@ public class StudentServiceImplTest {
     @Test
     public void getMyStudentsByGroupUnauthorised() {
         Mockito.when(studentToUserRepository.getMyStudents(ID_USER_ADMIN)).
-                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(),Student.builder().id(ID_STUDENT_TWO).build())
+                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(), Student.builder().id(ID_STUDENT_TWO).build())
                 );
-       Assertions.assertEquals(0,studentService.getMyStudents(1L).size());
+        assertEquals(0, studentService.getMyStudents(1L).size());
     }
 
 
@@ -105,14 +113,14 @@ public class StudentServiceImplTest {
     public void getMyStudent() {
         Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(Student.builder().id(ID_STUDENT_ONE).build()));
         Student student = studentService.getMyStudent(ID_STUDENT_ONE);
-        Assertions.assertEquals(ID_STUDENT_ONE,student.getId());
+        assertEquals(ID_STUDENT_ONE, student.getId());
     }
 
     @Test
     @WithUserDetails("member@parcom.com")
     public void getMyStudentNotFound() {
         Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(Student.builder().id(ID_STUDENT_ONE).build()));
-        Assertions.assertThrows(NotFoundParcomException.class, () -> {
+        assertThrows(NotFoundParcomException.class, () -> {
             studentService.getMyStudent(ID_STUDENT_TWO);
         });
     }
@@ -122,7 +130,7 @@ public class StudentServiceImplTest {
     @WithUserDetails("parent@parcom.com")
     public void getMyStudentWrongParent() {
         Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(Student.builder().id(ID_STUDENT_ONE).build()));
-        Assertions.assertThrows(NotFoundParcomException.class, () -> {
+        assertThrows(NotFoundParcomException.class, () -> {
             studentService.getMyStudent(ID_STUDENT_ONE);
         });
     }
@@ -132,16 +140,16 @@ public class StudentServiceImplTest {
     @WithUserDetails("admin@parcom.com")
     public void getStudents() {
         Mockito.when(studentRepository.getStudentsByGroup(ID_GROUP_ONE)).
-                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(),Student.builder().id(ID_STUDENT_TWO).build())
+                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(), Student.builder().id(ID_STUDENT_TWO).build())
                 );
 
-        Assertions.assertEquals(2,studentService.getStudents().size());
+        assertEquals(2, studentService.getStudents().size());
     }
 
     @Test
     @WithUserDetails("parent@parcom.com")
     public void getStudentsAccessDenied() {
-        Assertions.assertThrows(AccessDeniedException.class, () -> {
+        assertThrows(AccessDeniedException.class, () -> {
             studentService.getStudents();
         });
     }
@@ -150,23 +158,161 @@ public class StudentServiceImplTest {
     @WithUserDetails("fromAnotherGroup@parcom.com")
     public void getStudentsNotMyGroup() {
         Mockito.when(studentRepository.getStudentsByGroup(ID_GROUP_ONE)).
-                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(),Student.builder().id(ID_STUDENT_TWO).build())
+                thenReturn(Arrays.asList(Student.builder().id(ID_STUDENT_ONE).build(), Student.builder().id(ID_STUDENT_TWO).build())
                 );
-        Assertions.assertEquals(0,studentService.getStudents().size());
+        assertEquals(0, studentService.getStudents().size());
     }
 
 
-
-
     @Test
+    @WithUserDetails("admin@parcom.com")
     public void create() {
+
+        LocalDate now = LocalDate.now();
+
+        Group group = Group.builder().id(ID_GROUP_ONE).build();
+
+        Mockito.when(groupServiceImpl.getCurrentGroup()).
+                thenReturn(group);
+
+        Student student = Student.builder().firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).
+                group(group).
+                build();
+
+        StudentDto studentDTO = StudentDto.builder().
+                firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).build();
+
+        Mockito.when(studentRepository.save(student)).thenReturn(student);
+
+
+        Student insertedStudent = studentService.create(studentDTO);
+
+
+        assertAll("creation",
+                () -> assertEquals(FIRST_NAME,insertedStudent.getFirstName()),
+                () -> assertEquals(MIDDLE_NAME,insertedStudent.getMiddleName()),
+                () -> assertEquals(FAMILY_NAME,insertedStudent.getFamilyName()),
+                () -> assertEquals(now,insertedStudent.getBirthDay())
+                );
     }
 
+
     @Test
+    @WithUserDetails("parent@parcom.com")
+    public void createByParent() {
+
+        LocalDate now = LocalDate.now();
+
+        StudentDto studentDTO = StudentDto.builder().
+                firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).build();
+
+        assertThrows(AccessDeniedException.class, () -> {
+            studentService.create(studentDTO);
+        });
+    }
+
+
+    @Test
+    @WithUserDetails("admin@parcom.com")
     public void update() {
+        LocalDate now = LocalDate.now().plusDays(1);
+
+        Student student = Student.builder().id(ID_STUDENT_ONE).firstName("1").
+                middleName("2").
+                familyName("3").
+                birthDay(LocalDate.now()).
+                build();
+        Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(student));
+
+        StudentDto studentDTO = StudentDto.builder().
+                firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).build();
+
+
+        Mockito.when(studentRepository.save(student)).thenReturn(student);
+
+        Student updatedStudent = studentService.update(ID_STUDENT_ONE,studentDTO);
+
+
+        assertAll("update",
+                () -> assertEquals(FIRST_NAME,updatedStudent.getFirstName()),
+                () -> assertEquals(MIDDLE_NAME,updatedStudent.getMiddleName()),
+                () -> assertEquals(FAMILY_NAME,updatedStudent.getFamilyName()),
+                () -> assertEquals(now,updatedStudent.getBirthDay())
+        );
+    }
+
+
+    @Test
+    @WithUserDetails("admin@parcom.com")
+    public void updateWrongId() {
+        LocalDate now = LocalDate.now().plusDays(1);
+
+        StudentDto studentDTO = StudentDto.builder().
+                firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).build();
+
+
+        assertThrows(NotFoundParcomException.class, () -> {
+            studentService.update(ID_STUDENT_TWO,studentDTO);
+        });
+    }
+
+
+    @Test
+    @WithUserDetails("parent@parcom.com")
+    public void updateByParent() {
+
+        LocalDate now = LocalDate.now();
+
+        StudentDto studentDTO = StudentDto.builder().
+                firstName(FIRST_NAME).
+                middleName(MIDDLE_NAME).
+                familyName(FAMILY_NAME).
+                birthDay(now).build();
+
+        assertThrows(AccessDeniedException.class, () -> {
+            studentService.update(ID_STUDENT_ONE,studentDTO);
+        });
+    }
+
+
+    @Test
+    @WithUserDetails("admin@parcom.com")
+    public void delete() {
+
+        Student student = Student.builder().id(ID_STUDENT_ONE).build();
+        Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(student));
+            studentService.delete(ID_STUDENT_ONE);
     }
 
     @Test
-    public void delete() {
+    @WithUserDetails("admin@parcom.com")
+    public void deleteNotFound() {
+        assertThrows(NotFoundParcomException.class, () -> {
+            studentService.delete(ID_STUDENT_ONE);
+        });
     }
+
+    @Test
+    @WithUserDetails("parent@parcom.com")
+    public void deleteByParent() {
+        assertThrows(AccessDeniedException.class, () -> {
+            studentService.delete(ID_STUDENT_ONE);
+        });
+    }
+
 }
