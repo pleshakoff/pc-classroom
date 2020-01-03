@@ -28,13 +28,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StudentServiceImplTest {
 
 
-    public static final long ID_STUDENT_ONE = 1L;
-    public static final long ID_STUDENT_TWO = 2L;
-    public static final long ID_USER_ADMIN = 1L;
-    public static final long ID_GROUP_ONE = 1L;
-    public static final String FIRST_NAME = "ivan";
-    public static final String MIDDLE_NAME = "ivanovich";
-    public static final String FAMILY_NAME = "ivanov";
+    private static final long ID_STUDENT_ONE = 1L;
+    private static final long ID_STUDENT_TWO = 2L;
+    private static final long ID_USER_ADMIN = 1L;
+    private static final long ID_GROUP_ONE = 1L;
+    private static final String FIRST_NAME = "ivan";
+    private static final String MIDDLE_NAME = "ivanovich";
+    private static final String FAMILY_NAME = "ivanov";
+
     @Autowired
     StudentService studentService;
 
@@ -57,6 +58,24 @@ public class StudentServiceImplTest {
         Student student = studentService.getById(ID_STUDENT_ONE);
         assertEquals(ID_STUDENT_ONE, student.getId());
     }
+
+    @Test
+    @WithUserDetails("admin@parcom.com")
+    public void getByIdNotFound() {
+        assertThrows(NotFoundParcomException.class, () -> {
+            studentService.getById(ID_STUDENT_ONE);
+        });
+    }
+
+
+    @Test
+    @WithUserDetails("admin@parcom.com")
+    public void getCurrentStudent() {
+        Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(Student.builder().id(ID_STUDENT_ONE).build()));
+        Student student = studentService.getCurrentStudent();
+        assertEquals(ID_STUDENT_ONE, student.getId());
+    }
+
 
     @Test
     @WithUserDetails("childFreeMember@parcom.com")

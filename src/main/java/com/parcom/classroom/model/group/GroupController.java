@@ -18,10 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GroupController {
 
-    private final GroupServiceImpl groupService;
-    private  final MessageSource messageSource;
-
-
+    private final GroupService groupService;
 
     @GetMapping
     @ApiOperation(value = "Get current group")

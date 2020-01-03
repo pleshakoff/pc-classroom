@@ -17,16 +17,16 @@ public
 class GroupServiceImpl implements GroupService {
 
     private static final String GROUP_NOT_FOUND = "group.not_found";
+
     private  final  GroupRepository groupRepository;
     private  final  GroupToUserRepository groupToUserRepository;
-    private  final MessageSource messageSource;
 
     @Override
     public Group getCurrentGroup() {
         return getById(UserUtils.getIdGroup());
     }
 
-    List<Group> getMyGroups() {
+    public List<Group> getMyGroups() {
         return groupToUserRepository.findMyGroups(UserUtils.getIdUser());
     }
 
