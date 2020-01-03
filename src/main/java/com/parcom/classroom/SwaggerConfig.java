@@ -16,12 +16,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
 
-    ApiInfo apiInfo() {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Classroom")
                 .description("Управление рабочим пространством родительского комитета")
@@ -37,7 +38,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).globalOperationParameters(
-                Arrays.asList(new ParameterBuilder()
+                Collections.singletonList(new ParameterBuilder()
                         .name("X-Auth-Token")
                         .description("userSecurityResponseDto session token")
                         .modelRef(new ModelRef("string"))
