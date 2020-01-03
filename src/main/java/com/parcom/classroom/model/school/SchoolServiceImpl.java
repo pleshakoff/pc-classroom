@@ -2,9 +2,13 @@ package com.parcom.classroom.model.school;
 
 
 import com.parcom.exceptions.NotFoundParcomException;
+import com.parcom.exceptions.ParcomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -12,10 +16,15 @@ import org.springframework.stereotype.Service;
 class SchoolServiceImpl implements SchoolService {
 
     private static final String SCHOOL_NOT_FOUND = "school.not_found" ;
+
     private final SchoolRepository schoolRepository;
 
     @Override
-    public School getOrCreate(Long id, String name) {
+    public School getOrCreate(Long id, @NotNull String name) {
+
+        if (id == null && Strings.isEmpty(name))
+            throw new ParcomException("school.can_not_be_null");
+
 
         if (id != null) {
             log.info("Find school {}",id);

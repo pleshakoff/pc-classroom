@@ -92,9 +92,6 @@ class AddServiceImpl implements AddService {
     @Transactional
     public User registerNewGroup(AddGroupDto addDto) {
 
-          if (addDto.getIdSchool() == null && addDto.getNameSchool() == null)
-            throw new ParcomException("school.can_not_be_null");
-
         School school = schoolService.getOrCreate(addDto.getIdSchool(),addDto.getNameSchool());
         Group group = groupService.create(addDto.getNameGroup(),school);
         User user = userService.create(addDto.email);

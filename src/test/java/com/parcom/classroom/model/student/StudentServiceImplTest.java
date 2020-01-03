@@ -168,9 +168,9 @@ public class StudentServiceImplTest {
     @Test
     @WithUserDetails("parent@parcom.com")
     public void getStudentsAccessDenied() {
-        assertThrows(AccessDeniedException.class, () -> {
-            studentService.getStudents();
-        });
+        assertThrows(AccessDeniedException.class, () ->
+            studentService.getStudents()
+        );
     }
 
     @Test
