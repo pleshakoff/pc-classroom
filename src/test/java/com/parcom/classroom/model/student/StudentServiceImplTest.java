@@ -194,23 +194,15 @@ public class StudentServiceImplTest {
         Mockito.when(groupServiceImpl.getCurrentGroup()).
                 thenReturn(group);
 
-        Student student = Student.builder().firstName(FIRST_NAME).
-                middleName(MIDDLE_NAME).
-                familyName(FAMILY_NAME).
-                birthDay(now).
-                group(group).
-                build();
-
         StudentDto studentDTO = StudentDto.builder().
                 firstName(FIRST_NAME).
                 middleName(MIDDLE_NAME).
                 familyName(FAMILY_NAME).
                 birthDay(now).build();
 
-        Mockito.when(studentRepository.save(student)).thenReturn(student);
+       Mockito.when(studentRepository.save(Mockito.any(Student.class))).thenAnswer(i -> i.getArguments()[0]);
 
-
-        Student insertedStudent = studentService.create(studentDTO);
+       Student insertedStudent = studentService.create(studentDTO);
 
 
         assertAll("creation",
@@ -250,6 +242,7 @@ public class StudentServiceImplTest {
                 familyName("3").
                 birthDay(LocalDate.now()).
                 build();
+
         Mockito.when(studentRepository.findById(ID_STUDENT_ONE)).thenReturn(of(student));
 
         StudentDto studentDTO = StudentDto.builder().
@@ -259,7 +252,7 @@ public class StudentServiceImplTest {
                 birthDay(now).build();
 
 
-        Mockito.when(studentRepository.save(student)).thenReturn(student);
+        Mockito.when(studentRepository.save(Mockito.any(Student.class))).thenAnswer(i -> i.getArguments()[0]);
 
         Student updatedStudent = studentService.update(ID_STUDENT_ONE,studentDTO);
 

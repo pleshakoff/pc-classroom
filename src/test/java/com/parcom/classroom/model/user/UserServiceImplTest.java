@@ -232,7 +232,9 @@ class UserServiceImplTest {
 
         Mockito.when( groupToUserRepository.findMyGroupUsers(ID_GROUP_ONE)).
                 thenReturn(Collections.singletonList(user));
-        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+
         User updatedUser = userService.update(ID_USER_ADMIN, userUpdateDto);
 
         assertAll("update",
