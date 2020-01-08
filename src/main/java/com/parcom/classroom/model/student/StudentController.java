@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/students",produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(value = "/students",produces = {MediaType.APPLICATION_JSON_VALUE})
 @Api(tags="Students")
 @RequiredArgsConstructor
 public class StudentController {

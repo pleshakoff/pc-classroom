@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/group",produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+@RequestMapping(value = "/group",produces = {MediaType.APPLICATION_JSON_VALUE})
 @Api(tags="Groups")
 @RequiredArgsConstructor
 public class GroupController {
