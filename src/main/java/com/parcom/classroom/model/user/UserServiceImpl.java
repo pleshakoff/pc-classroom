@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -37,6 +36,7 @@ class UserServiceImpl implements UserService {
     private  final Network network;
     private  final GroupToUserRepository groupToUserRepository;
     private  final StudentToUserRepository studentToUserRepository;
+    private  final UserCacheService userCacheService;
 
 
     @Override
@@ -108,6 +108,7 @@ class UserServiceImpl implements UserService {
         user.setFirstName(userUpdateDto.getFirstName());
         user.setFamilyName(userUpdateDto.getFamilyName());
         user.setMiddleName(userUpdateDto.getMiddleName());
+        userCacheService.resetUserCache(id);
         return userRepository.save(user);
     }
 

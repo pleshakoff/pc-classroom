@@ -11,6 +11,11 @@ parcom:
       host: pc-security
       port: 8081
       version: v1
+    -
+      name: user-cache
+      host: pc-user-cache
+      port: 8086
+      version: v1
 
 spring:
   application.name: pc-classroom
@@ -34,6 +39,3 @@ spring:
          jdbc:
           lob:
             non_contextual_creation: true
-  data:
-    rest:
-      detection-strategy: annotated
