@@ -5,16 +5,16 @@ server:
 parcom:
   api:
     version: v1
+  kafka:
+    bootstrap-address: pc-kafka:9092
+    topic:
+      user: user
+
   services:
     -
       name: security
       host: pc-security
       port: 8081
-      version: v1
-    -
-      name: user-cache
-      host: pc-user-cache
-      port: 8086
       version: v1
 
 spring:
