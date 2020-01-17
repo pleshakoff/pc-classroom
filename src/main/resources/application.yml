@@ -39,3 +39,10 @@ spring:
          jdbc:
           lob:
             non_contextual_creation: true
+management:
+  endpoints:
+    metrics:
+      enabled: true
+    web:
+      exposure:
+        include: "health,prometheus"
