@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 @SpringBootApplication
 @EnableAsync
-@EnableWebSecurity()
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class ClassroomApplication {
 

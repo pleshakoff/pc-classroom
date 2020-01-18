@@ -3,10 +3,6 @@ server:
      context-path: /api/${parcom.api.version}
 
 parcom:
-  security:
-    permitted:
-      -
-        /add/**
   api:
     version: v1
   kafka:
@@ -14,6 +10,10 @@ parcom:
     topic:
       user: user
 
+  security:
+    permitted:
+      -
+        /add/**
   services:
     -
       name: security
