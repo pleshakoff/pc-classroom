@@ -9,7 +9,6 @@ parcom:
     bootstrap-address: pc-kafka:9092
     topic:
       user: user
-
   security:
     permitted:
       -
