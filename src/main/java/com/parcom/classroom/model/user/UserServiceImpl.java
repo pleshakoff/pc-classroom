@@ -108,8 +108,9 @@ class UserServiceImpl implements UserService {
         user.setFirstName(userUpdateDto.getFirstName());
         user.setFamilyName(userUpdateDto.getFamilyName());
         user.setMiddleName(userUpdateDto.getMiddleName());
+        User modifiedUser = userRepository.save(user);
         userCacheService.resetUserCache(id);
-        return userRepository.save(user);
+        return modifiedUser;
     }
 
 
@@ -130,6 +131,7 @@ class UserServiceImpl implements UserService {
         Map<String,String> additionalHeaders = new HashMap<>();
         additionalHeaders.put(Checksum.CHECKSUM,Checksum.createChecksum(id));
         log.info("Delete user account {}", id) ;
+        userCacheService.resetUserCache(id);
         network.callDelete(SERVICE_NAME_SECURITY,additionalHeaders,USERS_URL,id.toString());
     }
 
