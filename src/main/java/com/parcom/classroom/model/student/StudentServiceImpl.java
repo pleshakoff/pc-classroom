@@ -1,12 +1,14 @@
 package com.parcom.classroom.model.student;
 
 import com.parcom.classroom.model.group.GroupService;
+import com.parcom.classroom.services.sync.SyncStudentEvent;
 import com.parcom.exceptions.NotFoundParcomException;
 import com.parcom.security_client.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final StudentToUserRepository studentToUserRepository;
     private final GroupService groupService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
 
     @Override
@@ -62,18 +65,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional
     public Student create(StudentDto studentDTO){
-        return studentRepository.save(
+        Student student = studentRepository.save(
                 Student.builder().firstName(studentDTO.getFirstName()).
-                                  middleName(studentDTO.getMiddleName()).
-                                  familyName(studentDTO.getFamilyName()).
-                                  birthDay(studentDTO.getBirthDay()).
-                                  group(groupService.getCurrentGroup()).
-                                  build()
+                        middleName(studentDTO.getMiddleName()).
+                        familyName(studentDTO.getFamilyName()).
+                        birthDay(studentDTO.getBirthDay()).
+                        group(groupService.getCurrentGroup()).
+                        build()
         );
+        applicationEventPublisher.publishEvent(new SyncStudentEvent(this, student.getId()));
+        return student;
     }
 
     @Override
+    @Transactional
     public Student update(Long id, StudentDto studentDTO)
     {
         Student student = getById(id);
@@ -81,16 +88,20 @@ public class StudentServiceImpl implements StudentService {
         student.setFirstName(studentDTO.getFirstName());
         student.setFamilyName(studentDTO.getFamilyName());
         student.setMiddleName(studentDTO.getMiddleName());
-        return studentRepository.save(
+        Student updated = studentRepository.save(
                 student
         );
+        applicationEventPublisher.publishEvent(new SyncStudentEvent(this, student.getId()));
+        return updated;
     }
 
     @Override
+    @Transactional
     public void delete(Long id)
     {
         studentToUserRepository.deleteAllByStudent(getById(id));
         studentRepository.deleteById(id);
+        applicationEventPublisher.publishEvent(new SyncStudentEvent(this, id));
     }
 
 

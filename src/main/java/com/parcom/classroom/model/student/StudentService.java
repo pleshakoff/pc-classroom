@@ -2,6 +2,7 @@ package com.parcom.classroom.model.student;
 
 import org.springframework.security.access.annotation.Secured;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
