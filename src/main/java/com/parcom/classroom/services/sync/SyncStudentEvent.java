@@ -12,4 +12,5 @@ public class SyncStudentEvent extends ApplicationEvent {
         super(source);
         this.idStudent = idStudent;
     }
+
 }

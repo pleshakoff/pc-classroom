@@ -16,15 +16,16 @@ public interface StudentService {
 
     List<Student> getMyStudents(Long idGroup);
 
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    @Secured({"ROLE_ADMIN", "ROLE_MEMBER"})
     List<Student> getStudents();
 
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    @Secured({"ROLE_ADMIN", "ROLE_MEMBER"})
     Student create(StudentDto studentDTO);
 
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    @Secured({"ROLE_ADMIN", "ROLE_MEMBER"})
     Student update(Long id, StudentDto studentDTO);
 
-    @Secured({"ROLE_ADMIN","ROLE_MEMBER"})
+    @Secured({"ROLE_ADMIN", "ROLE_MEMBER"})
     void delete(Long id);
+
 }

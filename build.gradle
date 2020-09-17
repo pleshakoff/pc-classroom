@@ -14,7 +14,7 @@ configurations {
 }
 
 repositories {
-    jcenter() 
+    jcenter()
     maven { url 'https://jitpack.io' }
 }
 
@@ -26,8 +26,8 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
 
 
-    implementation  'io.springfox:springfox-swagger-ui:2.9.2'
-    implementation  'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
 
@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.github.pleshakoff:pc-exceptions-starter:1.1.5'
 
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql' 
+    runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'

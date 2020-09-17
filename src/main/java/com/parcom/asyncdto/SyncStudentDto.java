@@ -9,5 +9,4 @@ import lombok.RequiredArgsConstructor;
 public class SyncStudentDto {
 
     private final long idStudent;
-
 }

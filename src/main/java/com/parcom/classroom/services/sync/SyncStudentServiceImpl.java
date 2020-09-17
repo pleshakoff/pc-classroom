@@ -21,7 +21,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SyncStudentServiceImpl  {
+public class SyncStudentServiceImpl {
 
     private final KafkaTemplate<String, SyncStudentDto> notificationDtoKafkaTemplate;
 

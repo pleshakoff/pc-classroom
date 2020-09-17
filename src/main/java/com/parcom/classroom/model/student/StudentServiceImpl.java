@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getCurrentStudent() {
-        if (UserUtils.getIdStudent()==null)
+        if (UserUtils.getIdStudent() == null)
             return null;
         return getById(UserUtils.getIdStudent());
     }
@@ -41,9 +41,8 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getMyStudents(Long idGroup) {
         if (idGroup == null) {
             return studentToUserRepository.getMyStudents(UserUtils.getIdUser());
-        }
-        else
-            return studentToUserRepository.getMyStudentsInGroup(UserUtils.getIdUser(),idGroup);
+        } else
+            return studentToUserRepository.getMyStudentsInGroup(UserUtils.getIdUser(), idGroup);
     }
 
     @Override
@@ -53,9 +52,8 @@ public class StudentServiceImpl implements StudentService {
                     stream().
                     filter(student -> student.getId().equals(id)).
                     findFirst().orElseThrow(() -> new NotFoundParcomException(STUDENT_NOT_FOUND));
-        }
-        else
-           return  getById(id);
+        } else
+            return getById(id);
     }
 
 
@@ -66,7 +64,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public Student create(StudentDto studentDTO){
+    public Student create(StudentDto studentDTO) {
         Student student = studentRepository.save(
                 Student.builder().firstName(studentDTO.getFirstName()).
                         middleName(studentDTO.getMiddleName()).
@@ -81,8 +79,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public Student update(Long id, StudentDto studentDTO)
-    {
+    public Student update(Long id, StudentDto studentDTO) {
         Student student = getById(id);
         student.setBirthDay(studentDTO.getBirthDay());
         student.setFirstName(studentDTO.getFirstName());
@@ -97,13 +94,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public void delete(Long id)
-    {
+    public void delete(Long id) {
         studentToUserRepository.deleteAllByStudent(getById(id));
         studentRepository.deleteById(id);
         applicationEventPublisher.publishEvent(new SyncStudentEvent(this, id));
     }
-
 
 
 }

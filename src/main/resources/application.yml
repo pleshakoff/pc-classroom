@@ -24,7 +24,6 @@ parcom:
       host: pc-user-cache
       port: 8086
       version: v1
-
 spring:
   application.name: pc-classroom
   hateoas:

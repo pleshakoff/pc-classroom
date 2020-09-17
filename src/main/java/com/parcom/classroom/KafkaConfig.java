@@ -21,7 +21,6 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-
     @Value("${parcom.kafka.bootstrap-address}")
     private String bootstrapAddress;
 
