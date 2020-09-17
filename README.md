@@ -1,1 +1,1 @@
-Описание системы можно почитать здесь https://github.com/pleshakoff/pc-root/blob/master/
+Описание системы можно почитать здесь https://github.com/pleshakoff/pc-root
