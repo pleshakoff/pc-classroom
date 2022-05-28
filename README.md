@@ -1,1 +1,1 @@
-Описание системы можно почитать здесь https://github.com/pleshakoff/pc-root
+System description https://github.com/pleshakoff/pc-root
